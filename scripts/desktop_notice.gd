@@ -17,7 +17,7 @@ func _desktop() -> void:
 	add_child(cam)
 	cam.make_current()
 	var note := Label3D.new()
-	note.text = "No headset found.\nExport to Quest or PICO to try the gloves in XR,\nor use Project > Tools > HexR to test them from the editor."
+	note.text = "No headset found.\nExport to Quest or PICO to try the gloves in XR,\nor test them from the HexR panel in the editor (under the Inspector)."
 	note.font_size = 28
 	note.pixel_size = 0.0015
 	note.position = Vector3(0, 1.45, -0.4)
