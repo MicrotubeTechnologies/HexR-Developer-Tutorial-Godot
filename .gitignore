@@ -2,3 +2,5 @@
 /android/
 /build/
 *.tmp
+# Godot copies a loaded extension to ~<name>.dll in the editor
+~*.dll

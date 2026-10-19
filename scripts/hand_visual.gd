@@ -18,6 +18,20 @@ func _ready() -> void:
 	if skeleton.is_empty():
 		push_warning("Hand mesh has no Skeleton3D")
 		return
+	_add_palm_bone(skeleton[0])
 	var modifier := XRHandModifier3D.new()
 	modifier.hand_tracker = tracker
 	skeleton[0].add_child(modifier)
+
+
+## The demo mesh has no palm bone, and XRHandModifier3D warns about that each time XR starts or
+## stops. An unskinned one, where the middle metacarpal is, keeps it quiet and changes nothing.
+func _add_palm_bone(skeleton: Skeleton3D) -> void:
+	var side := "Left" if left else "Right"
+	if skeleton.find_bone(side + "Palm") >= 0:
+		return
+	var metacarpal := skeleton.find_bone(side + "MiddleMetacarpal")
+	var palm := skeleton.add_bone(side + "Palm")
+	skeleton.set_bone_parent(palm, skeleton.find_bone(side + "Hand"))
+	skeleton.set_bone_rest(palm, skeleton.get_bone_rest(metacarpal))
+	skeleton.reset_bone_pose(palm)

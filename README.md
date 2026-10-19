@@ -223,4 +223,5 @@ commands, and show the headset's view and sound (the wearer accepts a capture pr
 
 MIT, see [LICENSE](LICENSE). The addons keep their own licences (HexR: MIT; Godot OpenXR
 Vendors: MIT; Godot XR Tools: MIT), and the hand models are from Godot's demo projects (MIT).
-See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). The Microtube logo in `icon.png` is a
+Microtube Technologies mark and is not covered by the MIT licence; use your own icon in your app.
