@@ -1,0 +1,704 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://common/environment.tscn" id="1_x1f1h"]
+[ext_resource type="PackedScene" path="res://common/player_rig.tscn" id="2_4fl8s"]
+[ext_resource type="FontFile" path="res://addons/hexr/ui/fonts/Archivo-Bold.ttf" id="3_3qd60"]
+[ext_resource type="FontFile" path="res://addons/hexr/ui/fonts/Inter-Medium.ttf" id="4_k2nm8"]
+[ext_resource type="Script" path="res://addons/hexr/components/hexr_grabbable.gd" id="5_vdmd1"]
+[ext_resource type="Script" path="res://scripts/flame.gd" id="6_1n6gt"]
+[ext_resource type="Script" path="res://addons/hexr/components/hexr_special_haptics.gd" id="7_kmidb"]
+[ext_resource type="Script" path="res://addons/hexr/components/hexr_physical_button.gd" id="8_dxr20"]
+[ext_resource type="Script" path="res://scripts/lightbulb.gd" id="9_014fr"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="10_yjlxb"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="11_1inpp"]
+[ext_resource type="Script" path="res://addons/hexr/interaction/hexr_interactable_haptics.gd" id="12_381q1"]
+[ext_resource type="Script" path="res://scripts/tutorial_commands.gd" id="13_8jrme"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0r5su"]
+albedo_color = Color(0.22, 0.23, 0.26, 1)
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_4csf0"]
+size = Vector3(1.6, 0.04, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d042l"]
+size = Vector3(1.6, 0.04, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gf20k"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_lqwq6"]
+size = Vector3(0.04, 0.78, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3cver"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_y2fh4"]
+size = Vector3(0.04, 0.78, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_43ic2"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_lcjs1"]
+size = Vector3(0.04, 0.78, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ika4m"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_0bi6v"]
+size = Vector3(0.04, 0.78, 0.04)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nx8ql"]
+size = Vector3(0.09, 0.09, 0.09)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x6eqe"]
+size = Vector3(0.13, 0.13, 0.13)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jctms"]
+albedo_color = Color(0.98, 0.85, 0.35, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ds5vv"]
+size = Vector3(0.09, 0.09, 0.09)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e52mt"]
+albedo_color = Color(0.035, 0.04, 0.055, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_d8wja"]
+size = Vector3(0.32, 0.122, 0.008)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bbjpl"]
+albedo_color = Color(0.9490196, 0.4, 0.101960786, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.9490196, 0.4, 0.101960786, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_16rv8"]
+size = Vector3(0.32, 0.006, 0.01)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mgu5b"]
+size = Vector3(0.09, 0.012, 0.03)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3sngs"]
+size = Vector3(0.11, 0.05, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cr4kv"]
+albedo_color = Color(0.85, 0.68, 0.25, 1)
+metallic = 0.9
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_oscpc"]
+size = Vector3(0.06, 0.006, 0.012)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngop1"]
+albedo_color = Color(0.85, 0.68, 0.25, 1)
+metallic = 0.9
+roughness = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fp76y"]
+top_radius = 0.016
+bottom_radius = 0.016
+height = 0.006
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q3gg1"]
+albedo_color = Color(0.035, 0.04, 0.055, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_dknoc"]
+size = Vector3(0.32, 0.122, 0.008)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x77wg"]
+albedo_color = Color(0.9490196, 0.4, 0.101960786, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.9490196, 0.4, 0.101960786, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cw5en"]
+size = Vector3(0.32, 0.006, 0.01)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yy7ro"]
+height = 0.22
+radius = 0.02
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s8y6c"]
+size = Vector3(0.08, 0.26, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpsq1"]
+albedo_color = Color(0.35, 0.22, 0.12, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ffaqs"]
+top_radius = 0.018
+bottom_radius = 0.018
+height = 0.22
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w3bcv"]
+albedo_color = Color(0.15, 0.15, 0.16, 1)
+metallic = 0.6
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pw8a2"]
+top_radius = 0.028
+bottom_radius = 0.028
+height = 0.04
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fijb4"]
+direction = Vector3(0, 1, 0)
+spread = 15.0
+initial_velocity_min = 0.1
+initial_velocity_max = 0.25
+gravity = Vector3(0, 0.3, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hfccu"]
+albedo_color = Color(1, 0.55, 0.15, 1)
+roughness = 0.2
+emission_enabled = true
+emission = Color(1, 0.55, 0.15, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_rtxcc"]
+material = SubResource("StandardMaterial3D_hfccu")
+radius = 0.008
+height = 0.016
+radial_segments = 6
+rings = 3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yscmj"]
+radius = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6v7eu"]
+albedo_color = Color(0.035, 0.04, 0.055, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_yqo1l"]
+size = Vector3(0.32, 0.122, 0.008)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uhg0v"]
+albedo_color = Color(0.9490196, 0.4, 0.101960786, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.9490196, 0.4, 0.101960786, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_woydl"]
+size = Vector3(0.32, 0.006, 0.01)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qmgqf"]
+albedo_color = Color(0.2, 0.2, 0.22, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_oedr6"]
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.03
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1mcvd"]
+height = 0.03
+radius = 0.04
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5kip4"]
+albedo_color = Color(0.9490196, 0.4, 0.101960786, 1)
+roughness = 0.4
+emission_enabled = true
+emission = Color(0.9490196, 0.4, 0.101960786, 1)
+emission_energy_multiplier = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7rvk6"]
+top_radius = 0.028
+bottom_radius = 0.028
+height = 0.016
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_mqrhs"]
+height = 0.02
+radius = 0.028
+
+[sub_resource type="SphereMesh" id="SphereMesh_e7vh8"]
+radius = 0.035
+height = 0.07
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xtvvm"]
+albedo_color = Color(0.035, 0.04, 0.055, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_k17bu"]
+size = Vector3(0.32, 0.122, 0.008)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s056j"]
+albedo_color = Color(0.9490196, 0.4, 0.101960786, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.9490196, 0.4, 0.101960786, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cqfg0"]
+size = Vector3(0.32, 0.006, 0.01)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vtxoi"]
+albedo_color = Color(0.22, 0.23, 0.26, 1)
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_y80w8"]
+size = Vector3(0.5, 0.04, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8pp1p"]
+size = Vector3(0.5, 0.04, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r4vf1"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_ufq4p"]
+size = Vector3(0.04, 0.78, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_agc3k"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_8drhp"]
+size = Vector3(0.04, 0.78, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2xolx"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_sjeou"]
+size = Vector3(0.04, 0.78, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xac8a"]
+albedo_color = Color(0.12, 0.12, 0.14, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_a2ctt"]
+size = Vector3(0.04, 0.78, 0.04)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22bkt"]
+radius = 0.04
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arxll"]
+albedo_color = Color(0.3, 0.75, 0.95, 1)
+metallic = 0.1
+roughness = 0.3
+
+[sub_resource type="SphereMesh" id="SphereMesh_hepa6"]
+radius = 0.04
+height = 0.08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6rrrv"]
+albedo_color = Color(0.035, 0.04, 0.055, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_uvj1r"]
+size = Vector3(0.3, 0.122, 0.008)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_af5wg"]
+albedo_color = Color(0.9490196, 0.4, 0.101960786, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.9490196, 0.4, 0.101960786, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_epb13"]
+size = Vector3(0.3, 0.006, 0.01)
+
+[node name="BasicTutorial" type="Node3D" unique_id=1786309426]
+
+[node name="Environment" type="Node3D" parent="." unique_id=1799369186 instance=ExtResource("1_x1f1h")]
+
+[node name="PlayerRig" type="XROrigin3D" parent="." unique_id=76828025 instance=ExtResource("2_4fl8s")]
+
+[node name="Heading" type="Label3D" parent="." unique_id=1042928046]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -1.6)
+pixel_size = 0.0012
+text = "1 · Basic Tutorial"
+font = ExtResource("3_3qd60")
+font_size = 64
+
+[node name="Subheading" type="Label3D" parent="." unique_id=1454300961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.98, -1.6)
+pixel_size = 0.0012
+modulate = Color(1, 1, 1, 0.7)
+text = "Grab, pinch, burn, press. Look at the menu on your left to connect the gloves."
+font = ExtResource("4_k2nm8")
+font_size = 30
+
+[node name="Table" type="StaticBody3D" parent="." unique_id=922182919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.55)
+
+[node name="Top" type="MeshInstance3D" parent="Table" unique_id=119673775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+material_override = SubResource("StandardMaterial3D_0r5su")
+mesh = SubResource("BoxMesh_4csf0")
+
+[node name="TopShape" type="CollisionShape3D" parent="Table" unique_id=198876154]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+shape = SubResource("BoxShape3D_d042l")
+
+[node name="Leg00" type="MeshInstance3D" parent="Table" unique_id=619363141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.39, -0.25)
+material_override = SubResource("StandardMaterial3D_gf20k")
+mesh = SubResource("BoxMesh_lqwq6")
+
+[node name="Leg02" type="MeshInstance3D" parent="Table" unique_id=1978800440]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.39, 0.25)
+material_override = SubResource("StandardMaterial3D_3cver")
+mesh = SubResource("BoxMesh_y2fh4")
+
+[node name="Leg20" type="MeshInstance3D" parent="Table" unique_id=784634864]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.39, -0.25)
+material_override = SubResource("StandardMaterial3D_43ic2")
+mesh = SubResource("BoxMesh_lcjs1")
+
+[node name="Leg22" type="MeshInstance3D" parent="Table" unique_id=2041464065]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.39, 0.25)
+material_override = SubResource("StandardMaterial3D_ika4m")
+mesh = SubResource("BoxMesh_0bi6v")
+
+[node name="Foam" type="RigidBody3D" parent="Table" unique_id=1099401342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0.85, 0.02)
+mass = 0.2
+
+[node name="Shape" type="CollisionShape3D" parent="Table/Foam" unique_id=559834332]
+shape = SubResource("BoxShape3D_nx8ql")
+
+[node name="HexRGrabbable" type="Area3D" parent="Table/Foam" unique_id=1163940419]
+collision_layer = 0
+collision_mask = 524288
+monitorable = false
+script = ExtResource("5_vdmd1")
+grab_type = 1
+haptic_strength = 20.0
+
+[node name="Shape" type="CollisionShape3D" parent="Table/Foam/HexRGrabbable" unique_id=871883514]
+shape = SubResource("BoxShape3D_x6eqe")
+
+[node name="Mesh" type="MeshInstance3D" parent="Table/Foam" unique_id=2065062317]
+material_override = SubResource("StandardMaterial3D_jctms")
+mesh = SubResource("BoxMesh_ds5vv")
+
+[node name="SignFoam" type="Node3D" parent="Table" unique_id=1179500139]
+transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, -0.55, 1.02, -0.2)
+
+[node name="Panel" type="MeshInstance3D" parent="Table/SignFoam" unique_id=2000611081]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
+material_override = SubResource("StandardMaterial3D_e52mt")
+mesh = SubResource("BoxMesh_d8wja")
+
+[node name="Accent" type="MeshInstance3D" parent="Table/SignFoam" unique_id=592863770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
+material_override = SubResource("StandardMaterial3D_bbjpl")
+mesh = SubResource("BoxMesh_16rv8")
+
+[node name="Title" type="Label3D" parent="Table/SignFoam" unique_id=233572997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
+pixel_size = 0.0006
+text = "Foam"
+font = ExtResource("3_3qd60")
+font_size = 36
+
+[node name="Body" type="Label3D" parent="Table/SignFoam" unique_id=1721858124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
+pixel_size = 0.0006
+modulate = Color(1, 1, 1, 0.8)
+text = "Grab it with your whole hand.
+HexRGrabbable, palm grab, strength 20: soft."
+font = ExtResource("4_k2nm8")
+font_size = 22
+vertical_alignment = 0
+autowrap_mode = 3
+width = 483.33334
+
+[node name="Key" type="RigidBody3D" parent="Table" unique_id=226578357]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.82, 0.02)
+mass = 0.2
+
+[node name="Shape" type="CollisionShape3D" parent="Table/Key" unique_id=1304535705]
+shape = SubResource("BoxShape3D_mgu5b")
+
+[node name="HexRGrabbable" type="Area3D" parent="Table/Key" unique_id=1344050936]
+collision_layer = 0
+collision_mask = 524288
+monitorable = false
+script = ExtResource("5_vdmd1")
+haptic_strength = 40.0
+
+[node name="Shape" type="CollisionShape3D" parent="Table/Key/HexRGrabbable" unique_id=1980087576]
+shape = SubResource("BoxShape3D_3sngs")
+
+[node name="Shaft" type="MeshInstance3D" parent="Table/Key" unique_id=569606288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 0, 0)
+material_override = SubResource("StandardMaterial3D_cr4kv")
+mesh = SubResource("BoxMesh_oscpc")
+
+[node name="Bow" type="MeshInstance3D" parent="Table/Key" unique_id=1491804022]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.025, 0, 0)
+material_override = SubResource("StandardMaterial3D_ngop1")
+mesh = SubResource("CylinderMesh_fp76y")
+
+[node name="SignKey" type="Node3D" parent="Table" unique_id=1848381901]
+transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, -0.2, 1.02, -0.2)
+
+[node name="Panel" type="MeshInstance3D" parent="Table/SignKey" unique_id=236826083]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
+material_override = SubResource("StandardMaterial3D_q3gg1")
+mesh = SubResource("BoxMesh_dknoc")
+
+[node name="Accent" type="MeshInstance3D" parent="Table/SignKey" unique_id=1587895012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
+material_override = SubResource("StandardMaterial3D_x77wg")
+mesh = SubResource("BoxMesh_cw5en")
+
+[node name="Title" type="Label3D" parent="Table/SignKey" unique_id=1847073621]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
+pixel_size = 0.0006
+text = "Key"
+font = ExtResource("3_3qd60")
+font_size = 36
+
+[node name="Body" type="Label3D" parent="Table/SignKey" unique_id=1852629902]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
+pixel_size = 0.0006
+modulate = Color(1, 1, 1, 0.8)
+text = "Pinch it between thumb and a finger.
+HexRGrabbable, pinch grab, strength 40."
+font = ExtResource("4_k2nm8")
+font_size = 22
+vertical_alignment = 0
+autowrap_mode = 3
+width = 483.33334
+
+[node name="Torch" type="RigidBody3D" parent="Table" unique_id=1091738472]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.15, 0.835, 0.02)
+mass = 0.2
+
+[node name="Shape" type="CollisionShape3D" parent="Table/Torch" unique_id=978038883]
+shape = SubResource("CylinderShape3D_yy7ro")
+
+[node name="HexRGrabbable" type="Area3D" parent="Table/Torch" unique_id=626439936]
+collision_layer = 0
+collision_mask = 524288
+monitorable = false
+script = ExtResource("5_vdmd1")
+grab_type = 1
+haptic_strength = 30.0
+
+[node name="Shape" type="CollisionShape3D" parent="Table/Torch/HexRGrabbable" unique_id=1613730299]
+shape = SubResource("BoxShape3D_s8y6c")
+
+[node name="Handle" type="MeshInstance3D" parent="Table/Torch" unique_id=2046147944]
+material_override = SubResource("StandardMaterial3D_lpsq1")
+mesh = SubResource("CylinderMesh_ffaqs")
+
+[node name="Head" type="MeshInstance3D" parent="Table/Torch" unique_id=303362034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
+material_override = SubResource("StandardMaterial3D_w3bcv")
+mesh = SubResource("CylinderMesh_pw8a2")
+
+[node name="FlameLight" type="OmniLight3D" parent="Table/Torch" unique_id=991618201]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
+light_color = Color(1, 0.6, 0.25, 1)
+omni_range = 0.8
+script = ExtResource("6_1n6gt")
+
+[node name="Flame" type="GPUParticles3D" parent="Table/Torch" unique_id=746190943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+amount = 40
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_fijb4")
+draw_pass_1 = SubResource("SphereMesh_rtxcc")
+
+[node name="FlameZone" type="Area3D" parent="Table/Torch" unique_id=1684476099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19, 0)
+collision_layer = 0
+collision_mask = 524288
+monitorable = false
+script = ExtResource("7_kmidb")
+effect = 0
+haptic_strength = 0.6
+vibration_frequency = 25.0
+
+[node name="Shape" type="CollisionShape3D" parent="Table/Torch/FlameZone" unique_id=225174254]
+shape = SubResource("SphereShape3D_yscmj")
+
+[node name="SignTorch" type="Node3D" parent="Table" unique_id=362271152]
+transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, 0.15, 1.02, -0.2)
+
+[node name="Panel" type="MeshInstance3D" parent="Table/SignTorch" unique_id=1233128426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
+material_override = SubResource("StandardMaterial3D_6v7eu")
+mesh = SubResource("BoxMesh_yqo1l")
+
+[node name="Accent" type="MeshInstance3D" parent="Table/SignTorch" unique_id=554165923]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
+material_override = SubResource("StandardMaterial3D_uhg0v")
+mesh = SubResource("BoxMesh_woydl")
+
+[node name="Title" type="Label3D" parent="Table/SignTorch" unique_id=1065487459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
+pixel_size = 0.0006
+text = "Torch"
+font = ExtResource("3_3qd60")
+font_size = 36
+
+[node name="Body" type="Label3D" parent="Table/SignTorch" unique_id=283291393]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
+pixel_size = 0.0006
+modulate = Color(1, 1, 1, 0.8)
+text = "Pick it up, then put a fingertip in the flame.
+HexRGrabbable + HexRSpecialHaptics (custom vibrations, 25 Hz)."
+font = ExtResource("4_k2nm8")
+font_size = 22
+vertical_alignment = 0
+autowrap_mode = 3
+width = 483.33334
+
+[node name="Button" type="StaticBody3D" parent="Table" unique_id=1717842071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.815, 0.02)
+
+[node name="Base" type="MeshInstance3D" parent="Table/Button" unique_id=1628997312]
+material_override = SubResource("StandardMaterial3D_qmgqf")
+mesh = SubResource("CylinderMesh_oedr6")
+
+[node name="Shape" type="CollisionShape3D" parent="Table/Button" unique_id=664366727]
+shape = SubResource("CylinderShape3D_1mcvd")
+
+[node name="Cap" type="MeshInstance3D" parent="Table/Button" unique_id=2082899670]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.022, 0)
+material_override = SubResource("StandardMaterial3D_5kip4")
+mesh = SubResource("CylinderMesh_7rvk6")
+
+[node name="HexRPhysicalButton" type="Area3D" parent="Table/Button" unique_id=1249277404 node_paths=PackedStringArray("cap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+collision_layer = 0
+collision_mask = 524288
+monitorable = false
+script = ExtResource("8_dxr20")
+cap = NodePath("../Cap")
+
+[node name="Shape" type="CollisionShape3D" parent="Table/Button/HexRPhysicalButton" unique_id=547386172]
+shape = SubResource("CylinderShape3D_mqrhs")
+
+[node name="Lightbulb" type="MeshInstance3D" parent="Table" unique_id=654485859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.62, 0.92, -0.05)
+mesh = SubResource("SphereMesh_e7vh8")
+script = ExtResource("9_014fr")
+
+[node name="SignButton" type="Node3D" parent="Table" unique_id=1199407375]
+transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, 0.55, 1.02, -0.2)
+
+[node name="Panel" type="MeshInstance3D" parent="Table/SignButton" unique_id=1336433512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
+material_override = SubResource("StandardMaterial3D_xtvvm")
+mesh = SubResource("BoxMesh_k17bu")
+
+[node name="Accent" type="MeshInstance3D" parent="Table/SignButton" unique_id=2109936182]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
+material_override = SubResource("StandardMaterial3D_s056j")
+mesh = SubResource("BoxMesh_cqfg0")
+
+[node name="Title" type="Label3D" parent="Table/SignButton" unique_id=652780642]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
+pixel_size = 0.0006
+text = "Button"
+font = ExtResource("3_3qd60")
+font_size = 36
+
+[node name="Body" type="Label3D" parent="Table/SignButton" unique_id=1399538285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
+pixel_size = 0.0006
+modulate = Color(1, 1, 1, 0.8)
+text = "Press it with your index finger.
+HexRPhysicalButton: no interaction toolkit needed."
+font = ExtResource("4_k2nm8")
+font_size = 22
+vertical_alignment = 0
+autowrap_mode = 3
+width = 483.33334
+
+[node name="XRToolsTable" type="StaticBody3D" parent="." unique_id=1166657629]
+transform = Transform3D(0.64278764, 0, -0.76604444, 0, 1, 0, 0.76604444, 0, 0.64278764, 1.15, 0, -0.1)
+
+[node name="Top" type="MeshInstance3D" parent="XRToolsTable" unique_id=1648656010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+material_override = SubResource("StandardMaterial3D_vtxoi")
+mesh = SubResource("BoxMesh_y80w8")
+
+[node name="TopShape" type="CollisionShape3D" parent="XRToolsTable" unique_id=40901051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+shape = SubResource("BoxShape3D_8pp1p")
+
+[node name="Leg00" type="MeshInstance3D" parent="XRToolsTable" unique_id=683930432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.39, -0.2)
+material_override = SubResource("StandardMaterial3D_r4vf1")
+mesh = SubResource("BoxMesh_ufq4p")
+
+[node name="Leg02" type="MeshInstance3D" parent="XRToolsTable" unique_id=473548841]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.39, 0.2)
+material_override = SubResource("StandardMaterial3D_agc3k")
+mesh = SubResource("BoxMesh_8drhp")
+
+[node name="Leg20" type="MeshInstance3D" parent="XRToolsTable" unique_id=142472429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.39, -0.2)
+material_override = SubResource("StandardMaterial3D_2xolx")
+mesh = SubResource("BoxMesh_sjeou")
+
+[node name="Leg22" type="MeshInstance3D" parent="XRToolsTable" unique_id=1622284413]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.39, 0.2)
+material_override = SubResource("StandardMaterial3D_xac8a")
+mesh = SubResource("BoxMesh_a2ctt")
+
+[node name="XRToolsBall" type="RigidBody3D" parent="XRToolsTable" unique_id=29099629 instance=ExtResource("10_yjlxb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+collision_layer = 4
+collision_mask = 196615
+freeze_mode = 1
+script = ExtResource("11_1inpp")
+
+[node name="Shape" type="CollisionShape3D" parent="XRToolsTable/XRToolsBall" unique_id=510209497]
+shape = SubResource("SphereShape3D_22bkt")
+
+[node name="Mesh" type="MeshInstance3D" parent="XRToolsTable/XRToolsBall" unique_id=76425374]
+material_override = SubResource("StandardMaterial3D_arxll")
+mesh = SubResource("SphereMesh_hepa6")
+
+[node name="HexRInteractableHaptics" type="Node" parent="XRToolsTable/XRToolsBall" unique_id=638228557]
+script = ExtResource("12_381q1")
+strength = 40.0
+
+[node name="SignXrToolsBall" type="Node3D" parent="XRToolsTable" unique_id=133485336]
+transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, 0, 1.02, -0.15)
+
+[node name="Panel" type="MeshInstance3D" parent="XRToolsTable/SignXrToolsBall" unique_id=1713008822]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
+material_override = SubResource("StandardMaterial3D_6rrrv")
+mesh = SubResource("BoxMesh_uvj1r")
+
+[node name="Accent" type="MeshInstance3D" parent="XRToolsTable/SignXrToolsBall" unique_id=1568557606]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
+material_override = SubResource("StandardMaterial3D_af5wg")
+mesh = SubResource("BoxMesh_epb13")
+
+[node name="Title" type="Label3D" parent="XRToolsTable/SignXrToolsBall" unique_id=2100838842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
+pixel_size = 0.0006
+text = "XR Tools ball"
+font = ExtResource("3_3qd60")
+font_size = 36
+
+[node name="Body" type="Label3D" parent="XRToolsTable/SignXrToolsBall" unique_id=229346372]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
+pixel_size = 0.0006
+modulate = Color(1, 1, 1, 0.8)
+text = "Pick it up the XR Tools way (pinch).
+HexRInteractableHaptics: squeeze harder, feel more."
+font = ExtResource("4_k2nm8")
+font_size = 22
+vertical_alignment = 0
+autowrap_mode = 3
+width = 450.0
+
+[node name="TutorialCommands" type="Node" parent="." unique_id=1281904045]
+script = ExtResource("13_8jrme")
+resettable = Array[NodePath]([NodePath("Table/Foam"), NodePath("Table/Key"), NodePath("Table/Torch"), NodePath("XRToolsTable/XRToolsBall")])
+
+[connection signal="pressed" from="Table/Button/HexRPhysicalButton" to="Table/Lightbulb" method="toggle"]

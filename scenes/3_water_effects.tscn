@@ -1,0 +1,322 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://common/environment.tscn" id="1_u4vq3"]
+[ext_resource type="PackedScene" path="res://common/player_rig.tscn" id="2_ravw1"]
+[ext_resource type="FontFile" path="res://addons/hexr/ui/fonts/Archivo-Bold.ttf" id="3_hj0c6"]
+[ext_resource type="FontFile" path="res://addons/hexr/ui/fonts/Inter-Medium.ttf" id="4_u31a7"]
+[ext_resource type="Script" path="res://addons/hexr/components/hexr_special_haptics.gd" id="5_sk3s0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t8x8q"]
+albedo_color = Color(0.55, 0.55, 0.58, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_oouih"]
+top_radius = 0.32
+bottom_radius = 0.32
+height = 0.75
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2wob8"]
+height = 0.75
+radius = 0.32
+
+[sub_resource type="TorusMesh" id="TorusMesh_ko70v"]
+inner_radius = 0.26
+outer_radius = 0.33
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qx2dq"]
+transparency = 1
+albedo_color = Color(0.2, 0.45, 0.7, 0.8)
+metallic = 0.2
+roughness = 0.05
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_en2hl"]
+top_radius = 0.27
+bottom_radius = 0.27
+height = 0.01
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f716j"]
+direction = Vector3(0, 1, 0)
+spread = 8.0
+initial_velocity_min = 1.4
+initial_velocity_max = 1.7
+gravity = Vector3(0, -3, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p15ph"]
+transparency = 1
+albedo_color = Color(0.6, 0.8, 1, 0.85)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.6, 0.8, 1, 0.85)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_2jinc"]
+material = SubResource("StandardMaterial3D_p15ph")
+radius = 0.007
+height = 0.014
+radial_segments = 6
+rings = 3
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ch7rt"]
+height = 0.4
+radius = 0.07
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hw5k8"]
+albedo_color = Color(0.035, 0.04, 0.055, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_xtehi"]
+size = Vector3(0.32, 0.122, 0.008)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ouu58"]
+albedo_color = Color(0.9490196, 0.4, 0.101960786, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.9490196, 0.4, 0.101960786, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_teaer"]
+size = Vector3(0.32, 0.006, 0.01)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_du5ot"]
+albedo_color = Color(0.55, 0.57, 0.62, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_osehq"]
+radius = 0.13
+height = 0.26
+
+[sub_resource type="SphereMesh" id="SphereMesh_fu26k"]
+radius = 0.16
+height = 0.32
+
+[sub_resource type="SphereMesh" id="SphereMesh_vop6l"]
+radius = 0.13
+height = 0.26
+
+[sub_resource type="SphereMesh" id="SphereMesh_hrrbj"]
+radius = 0.16
+height = 0.32
+
+[sub_resource type="SphereMesh" id="SphereMesh_iptou"]
+radius = 0.13
+height = 0.26
+
+[sub_resource type="SphereMesh" id="SphereMesh_8k1u4"]
+radius = 0.16
+height = 0.32
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nt8a6"]
+emission_shape = 3
+emission_box_extents = Vector3(0.2, 0.01, 0.16)
+direction = Vector3(0, -1, 0)
+spread = 2.0
+initial_velocity_min = 1.0
+initial_velocity_max = 1.4
+gravity = Vector3(0, -2, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_epbau"]
+transparency = 1
+albedo_color = Color(0.65, 0.8, 1, 0.8)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.65, 0.8, 1, 0.8)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_ouic8"]
+material = SubResource("StandardMaterial3D_epbau")
+radius = 0.005
+height = 0.01
+radial_segments = 6
+rings = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0owqi"]
+size = Vector3(0.45, 1.1, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b0bgc"]
+albedo_color = Color(0.035, 0.04, 0.055, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_fkc8u"]
+size = Vector3(0.32, 0.122, 0.008)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_142l5"]
+albedo_color = Color(0.9490196, 0.4, 0.101960786, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.9490196, 0.4, 0.101960786, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ayr0w"]
+size = Vector3(0.32, 0.006, 0.01)
+
+[node name="WaterEffects" type="Node3D" unique_id=65103288]
+
+[node name="Environment" type="Node3D" parent="." unique_id=1799369186 instance=ExtResource("1_u4vq3")]
+
+[node name="PlayerRig" type="XROrigin3D" parent="." unique_id=76828025 instance=ExtResource("2_ravw1")]
+
+[node name="Heading" type="Label3D" parent="." unique_id=615596325]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -1.6)
+pixel_size = 0.0012
+text = "3 · Water Effects"
+font = ExtResource("3_hj0c6")
+font_size = 64
+
+[node name="Subheading" type="Label3D" parent="." unique_id=1509847643]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.98, -1.6)
+pixel_size = 0.0012
+modulate = Color(1, 1, 1, 0.7)
+text = "Put your fingers in the fountain. Hold your palm up under the cloud."
+font = ExtResource("4_u31a7")
+font_size = 30
+
+[node name="Fountain" type="StaticBody3D" parent="." unique_id=1495253414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0, -0.6)
+
+[node name="Pedestal" type="MeshInstance3D" parent="Fountain" unique_id=660138252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
+material_override = SubResource("StandardMaterial3D_t8x8q")
+mesh = SubResource("CylinderMesh_oouih")
+
+[node name="Shape" type="CollisionShape3D" parent="Fountain" unique_id=281460110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
+shape = SubResource("CylinderShape3D_2wob8")
+
+[node name="Rim" type="MeshInstance3D" parent="Fountain" unique_id=1027865554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76, 0)
+material_override = SubResource("StandardMaterial3D_t8x8q")
+mesh = SubResource("TorusMesh_ko70v")
+
+[node name="Water" type="MeshInstance3D" parent="Fountain" unique_id=66800872]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74, 0)
+material_override = SubResource("StandardMaterial3D_qx2dq")
+mesh = SubResource("CylinderMesh_en2hl")
+
+[node name="Jet" type="GPUParticles3D" parent="Fountain" unique_id=1314780493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
+amount = 220
+process_material = SubResource("ParticleProcessMaterial_f716j")
+draw_pass_1 = SubResource("SphereMesh_2jinc")
+
+[node name="FountainZone" type="Area3D" parent="Fountain" unique_id=1400435914]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98, 0)
+collision_layer = 0
+collision_mask = 524288
+monitorable = false
+script = ExtResource("5_sk3s0")
+effect = 2
+
+[node name="Shape" type="CollisionShape3D" parent="Fountain/FountainZone" unique_id=830802180]
+shape = SubResource("CylinderShape3D_ch7rt")
+
+[node name="SignFountain" type="Node3D" parent="." unique_id=1070857883]
+transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, -0.45, 1.45, -1)
+
+[node name="Panel" type="MeshInstance3D" parent="SignFountain" unique_id=1177457336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
+material_override = SubResource("StandardMaterial3D_hw5k8")
+mesh = SubResource("BoxMesh_xtehi")
+
+[node name="Accent" type="MeshInstance3D" parent="SignFountain" unique_id=752904294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
+material_override = SubResource("StandardMaterial3D_ouu58")
+mesh = SubResource("BoxMesh_teaer")
+
+[node name="Title" type="Label3D" parent="SignFountain" unique_id=1568489256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
+pixel_size = 0.0006
+text = "Fountain"
+font = ExtResource("3_hj0c6")
+font_size = 36
+
+[node name="Body" type="Label3D" parent="SignFountain" unique_id=562137942]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
+pixel_size = 0.0006
+modulate = Color(1, 1, 1, 0.8)
+text = "Put your fingers into the jet.
+HexRSpecialHaptics, fountain effect: 18 Hz."
+font = ExtResource("4_u31a7")
+font_size = 22
+vertical_alignment = 0
+autowrap_mode = 3
+width = 483.33334
+
+[node name="RainCloud" type="Node3D" parent="." unique_id=406144921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.05, -0.45)
+
+[node name="Puff0" type="MeshInstance3D" parent="RainCloud" unique_id=1605158176]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 0, 0)
+material_override = SubResource("StandardMaterial3D_du5ot")
+mesh = SubResource("SphereMesh_osehq")
+
+[node name="Puff1" type="MeshInstance3D" parent="RainCloud" unique_id=446784673]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08956279, 0.029828208, 0.12143925)
+material_override = SubResource("StandardMaterial3D_du5ot")
+mesh = SubResource("SphereMesh_fu26k")
+
+[node name="Puff2" type="MeshInstance3D" parent="RainCloud" unique_id=98697944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.090872295, -0.03974764, 0.12084931)
+material_override = SubResource("StandardMaterial3D_du5ot")
+mesh = SubResource("SphereMesh_vop6l")
+
+[node name="Puff3" type="MeshInstance3D" parent="RainCloud" unique_id=1255272404]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17999364, 0.02313759, -0.0011770147)
+material_override = SubResource("StandardMaterial3D_du5ot")
+mesh = SubResource("SphereMesh_hrrbj")
+
+[node name="Puff4" type="MeshInstance3D" parent="RainCloud" unique_id=9598590]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08824695, 0.008915597, -0.12202061)
+material_override = SubResource("StandardMaterial3D_du5ot")
+mesh = SubResource("SphereMesh_iptou")
+
+[node name="Puff5" type="MeshInstance3D" parent="RainCloud" unique_id=572613645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09217539, -0.035018086, -0.12025083)
+material_override = SubResource("StandardMaterial3D_du5ot")
+mesh = SubResource("SphereMesh_8k1u4")
+
+[node name="Rain" type="GPUParticles3D" parent="RainCloud" unique_id=65938342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+amount = 160
+lifetime = 1.2
+process_material = SubResource("ParticleProcessMaterial_nt8a6")
+draw_pass_1 = SubResource("SphereMesh_ouic8")
+
+[node name="RainZone" type="Area3D" parent="." unique_id=277156521]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.35, -0.45)
+collision_layer = 0
+collision_mask = 524288
+monitorable = false
+script = ExtResource("5_sk3s0")
+effect = 3
+
+[node name="Shape" type="CollisionShape3D" parent="RainZone" unique_id=300757738]
+shape = SubResource("BoxShape3D_0owqi")
+
+[node name="SignRain" type="Node3D" parent="." unique_id=1982874084]
+transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, 0.5, 1.45, -0.95)
+
+[node name="Panel" type="MeshInstance3D" parent="SignRain" unique_id=1147002597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
+material_override = SubResource("StandardMaterial3D_b0bgc")
+mesh = SubResource("BoxMesh_fkc8u")
+
+[node name="Accent" type="MeshInstance3D" parent="SignRain" unique_id=1965557770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
+material_override = SubResource("StandardMaterial3D_142l5")
+mesh = SubResource("BoxMesh_ayr0w")
+
+[node name="Title" type="Label3D" parent="SignRain" unique_id=50999645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
+pixel_size = 0.0006
+text = "Rain"
+font = ExtResource("3_hj0c6")
+font_size = 36
+
+[node name="Body" type="Label3D" parent="SignRain" unique_id=290901243]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
+pixel_size = 0.0006
+modulate = Color(1, 1, 1, 0.8)
+text = "Hold your palm up under the cloud.
+HexRSpecialHaptics, rain drop effect: random drops."
+font = ExtResource("4_u31a7")
+font_size = 22
+vertical_alignment = 0
+autowrap_mode = 3
+width = 483.33334
