@@ -1,9 +1,9 @@
-class_name HexRSpecialHaptics
+class_name SpecialHaptics
 extends Area3D
 ## A zone with a ready-made haptic effect for the fingers inside it (port of the Unity
 ## package's SpecialHaptics). Effects skip the hand-near check: being in the zone is enough.
 ##
-## [br]- Custom vibrations: touching fingers vibrate at [member vibration_frequency].
+## [br]- Custom vibrations: touching fingers vibrate at [member vibrations_frequency_value].
 ## [br]- Custom haptics: touching fingers press at [member haptic_pressure] (10..60).
 ## [br]- Fountain: touching fingers vibrate at 18 Hz, as if under running water.
 ## [br]- Rain drop: the palm gets random patterns of drops.
@@ -12,28 +12,27 @@ extends Area3D
 
 signal squeezed(hand: int)
 
-enum Effect { CUSTOM_VIBRATIONS, CUSTOM_HAPTICS, FOUNTAIN, RAIN_DROP, HEART_BEAT, HAND_SQUEEZE }
+## Unity's effect types (the order is the same as the Unity package's).
+enum Options { CUSTOM_VIBRATIONS, CUSTOM_HAPTICS, FOUNTAIN_EFFECT, RAIN_DROP_EFFECT, HEART_BEAT_EFFECT, HAND_SQUEEZE_EFFECT }
 enum HeartBeat { REGULAR, IRREGULAR }
 
 const FINGERS := 6
 
-@export var effect: Effect = Effect.CUSTOM_HAPTICS
+@export var type_of_haptics: Options = Options.CUSTOM_VIBRATIONS
 ## Intensity (0.1..1) for custom vibrations and rain drops.
-@export_range(0.1, 1.0, 0.05) var haptic_strength := 0.5
+@export_range(0.1, 1.0, 0.05) var haptic_strength_value := 0.5
 ## Custom vibrations frequency in Hz.
-@export_range(0.1, 40.0, 0.1) var vibration_frequency := 1.0
+@export_range(0.1, 40.0, 0.1) var vibrations_frequency_value := 1.0
 ## Custom haptics pressure on the 10..60 strength scale.
 @export_range(10.0, 60.0, 10.0) var haptic_pressure := 10.0
-@export_group("Heart beat")
 ## Intensity (0.1..1) of each beat.
 @export_range(0.1, 1.0, 0.1) var heart_beat_pressure := 0.5
-@export var heart_beat: HeartBeat = HeartBeat.REGULAR
+@export var heartbeat: HeartBeat = HeartBeat.REGULAR
 ## Seconds each beat presses, then rests (regular beats).
 @export var in_timer := 0.4
 @export var out_timer := 0.3
 ## Let the palm feel the beat too.
 @export var include_palm := false
-@export_group("Hand squeeze")
 ## The squeeze fires when a finger enters the zone while every finger's use (0 curled .. 1
 ## extended) is at least this value. The Unity package's rule, kept as is.
 @export_range(0.0, 1.0, 0.05) var squeeze_tightness := 0.2
@@ -55,6 +54,19 @@ var _beat_phase_end := 0.0
 var _beat_activated: Array[bool] = [false, false]
 
 
+
+# Scenes saved with HexR 0.1 use the old property names.
+const _RENAMED_0_1 := {&"effect": &"type_of_haptics", &"haptic_strength": &"haptic_strength_value",
+		&"vibration_frequency": &"vibrations_frequency_value", &"heart_beat": &"heartbeat"}
+
+
+func _set(property: StringName, value: Variant) -> bool:
+	if not _RENAMED_0_1.has(property):
+		return false
+	set(_RENAMED_0_1[property], value)
+	HexRTypes.warn_renamed(self, property, _RENAMED_0_1[property])
+	return true
+
 func _init() -> void:
 	collision_layer = 0
 	collision_mask = 1 << 19
@@ -62,6 +74,8 @@ func _init() -> void:
 
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
 	_start_beat_in()
@@ -69,30 +83,30 @@ func _ready() -> void:
 
 ## Switches the heart beat between regular and irregular.
 func toggle_heart_regularity() -> void:
-	heart_beat = HeartBeat.REGULAR if heart_beat == HeartBeat.IRREGULAR else HeartBeat.IRREGULAR
+	heartbeat = HeartBeat.REGULAR if heartbeat == HeartBeat.IRREGULAR else HeartBeat.IRREGULAR
 
 
-## Touching fingers per hand: [hand][finger] -> HexRTouchPoint or null.
+## Touching fingers per hand: [hand][finger] -> HapticFingerTrigger or null.
 func _touching() -> Array:
 	var out := [[null, null, null, null, null, null], [null, null, null, null, null, null]]
 	for area in get_overlapping_areas():
-		if area is HexRTouchPoint:
-			out[area.hand][area.finger] = area
+		if area is HapticFingerTrigger:
+			out[area.hand_type][area.finger_type] = area
 	return out
 
 
 func _physics_process(delta: float) -> void:
 	_clock += delta
-	match effect:
-		Effect.CUSTOM_VIBRATIONS:
-			_tick_vibration(0.2, vibration_frequency, haptic_strength)
-		Effect.FOUNTAIN:
+	match type_of_haptics:
+		Options.CUSTOM_VIBRATIONS:
+			_tick_vibration(0.2, vibrations_frequency_value, haptic_strength_value)
+		Options.FOUNTAIN_EFFECT:
 			_tick_vibration(0.3, 18.0, 0.8)
-		Effect.CUSTOM_HAPTICS:
+		Options.CUSTOM_HAPTICS:
 			_tick_custom_haptics()
-		Effect.RAIN_DROP:
+		Options.RAIN_DROP_EFFECT:
 			_tick_rain()
-		Effect.HEART_BEAT:
+		Options.HEART_BEAT_EFFECT:
 			_tick_heart_beat()
 
 
@@ -131,52 +145,52 @@ func _send_vibration(hand: int, on: Array, frequency: float, intensity: float) -
 # -- custom haptics -------------------------------------------------------------------------
 
 func _on_area_entered(area: Area3D) -> void:
-	if not (area is HexRTouchPoint):
+	if not (area is HapticFingerTrigger):
 		return
-	var tp := area as HexRTouchPoint
-	match effect:
-		Effect.CUSTOM_HAPTICS:
+	var tp := area as HapticFingerTrigger
+	match type_of_haptics:
+		Options.CUSTOM_HAPTICS:
 			_pending_removal.erase(tp)
 			_press_point(tp)
-		Effect.HAND_SQUEEZE:
+		Options.HAND_SQUEEZE_EFFECT:
 			var hub := HexRManager.get_instance()
-			var use := hub.finger_use(tp.hand) if hub else null
+			var use := hub.finger_use(tp.hand_type) if hub else null
 			if use == null:
-				push_warning("[HexR] %s: Hand Squeeze needs a HexRTrackedHand for the %s hand." % [name, HexRTypes.hand_name(tp.hand)])
+				push_warning("[HexR] %s: Hand Squeeze needs a HexRTrackedHand for the %s hand." % [name, HexRTypes.hand_name(tp.hand_type)])
 				return
 			if use.thumb_use >= squeeze_tightness and use.index_use >= squeeze_tightness and use.middle_use >= squeeze_tightness \
 					and use.ring_use >= squeeze_tightness and use.little_use >= squeeze_tightness:
-				squeezed.emit(tp.hand)
+				squeezed.emit(tp.hand_type)
 
 
 func _on_area_exited(area: Area3D) -> void:
-	if area is HexRTouchPoint and effect == Effect.CUSTOM_HAPTICS and _pressed_points.has(area):
+	if area is HapticFingerTrigger and type_of_haptics == Options.CUSTOM_HAPTICS and _pressed_points.has(area):
 		_pending_removal[area] = _clock + 0.1
 
 
-func _press_point(tp: HexRTouchPoint) -> void:
-	tp.trigger_fix_pressure(HexRPressureController.strength_to_intensity(haptic_pressure))
+func _press_point(tp: HapticFingerTrigger) -> void:
+	tp.trigger_fix_pressure(PressureTrackerMain.strength_to_intensity(haptic_pressure))
 	_pressed_points[tp] = true
-	_applied[tp.hand][tp.finger] = true
+	_applied[tp.hand_type][tp.finger_type] = true
 
 
 func _tick_custom_haptics() -> void:
-	for tp: HexRTouchPoint in _pending_removal.keys():
+	for tp: HapticFingerTrigger in _pending_removal.keys():
 		if _clock < _pending_removal[tp]:
 			continue
 		_pending_removal.erase(tp)
 		if is_instance_valid(tp) and not overlaps_area(tp):
 			tp.remove_haptics()
 			_pressed_points.erase(tp)
-			_applied[tp.hand][tp.finger] = false
+			_applied[tp.hand_type][tp.finger_type] = false
 	# Re-press a touching finger if something else released it meanwhile.
-	for tp: HexRTouchPoint in _pressed_points.keys():
+	for tp: HapticFingerTrigger in _pressed_points.keys():
 		if not is_instance_valid(tp):
 			_pressed_points.erase(tp)
 			continue
 		var g := tp.glove()
 		if g and g.ble_connected and overlaps_area(tp) and not _pending_removal.has(tp) \
-				and g.haptics.get_channel_state(tp.finger).mode == HexRTypes.HapticMode.OFF:
+				and g.haptics.get_channel_state(tp.finger_type).mode == Haptics.HapticMode.OFF:
 			_press_point(tp)
 
 
@@ -204,7 +218,7 @@ func _tick_rain() -> void:
 		return
 	var touching := _touching()
 	for hand in 2:
-		if touching[hand][HexRTypes.Finger.PALM] == null:
+		if touching[hand][Haptics.Finger.PALM] == null:
 			continue
 		_ready_to_drop = false
 		_drop_rearm_at = _clock + 0.2
@@ -212,7 +226,7 @@ func _tick_rain() -> void:
 		var g := _glove(hand)
 		if g:
 			var on: Array = RAIN_PATTERNS[randi_range(0, RAIN_PATTERNS.size() - 1)]
-			var s := haptic_strength
+			var s := haptic_strength_value
 			g.bt_send(g.haptics.hexr_pressure_multi(HexRTypes.ALL_FINGERS, on, [s, s, s, s, s, s], [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]))
 			for f in FINGERS:
 				_applied[hand][f] = _applied[hand][f] or on[f]
@@ -223,7 +237,7 @@ func _tick_rain() -> void:
 
 func _start_beat_in() -> void:
 	_beat_in = true
-	_beat_phase_end = _clock + (in_timer if heart_beat == HeartBeat.REGULAR else randf_range(0.2, 0.4))
+	_beat_phase_end = _clock + (in_timer if heartbeat == HeartBeat.REGULAR else randf_range(0.2, 0.4))
 	_next_tick = _clock
 
 
@@ -236,7 +250,7 @@ func _tick_heart_beat() -> void:
 				var on: Array = []
 				var any := false
 				for f in FINGERS:
-					var hit: bool = touching[hand][f] != null and (f != HexRTypes.Finger.PALM or include_palm)
+					var hit: bool = touching[hand][f] != null and (f != Haptics.Finger.PALM or include_palm)
 					on.append(hit)
 					any = any or hit
 				var g := _glove(hand)
@@ -255,7 +269,7 @@ func _tick_heart_beat() -> void:
 						c.remove_all_haptics()
 					_beat_activated[hand] = false
 					_applied[hand] = [false, false, false, false, false, false]
-			_beat_phase_end = _clock + (out_timer if heart_beat == HeartBeat.REGULAR else randf_range(0.4, 0.7))
+			_beat_phase_end = _clock + (out_timer if heartbeat == HeartBeat.REGULAR else randf_range(0.4, 0.7))
 	elif _clock >= _beat_phase_end:
 		_start_beat_in()
 
@@ -284,11 +298,11 @@ func _any_applied(hand: int) -> bool:
 	return false
 
 
-func _glove(hand: int) -> HexRGlove:
+func _glove(hand: int) -> HaptGloveHandler:
 	var hub := HexRManager.get_instance()
 	return hub.glove(hand) if hub else null
 
 
-func _controller(hand: int) -> HexRPressureController:
+func _controller(hand: int) -> PressureTrackerMain:
 	var hub := HexRManager.get_instance()
 	return hub.controller(hand) if hub else null

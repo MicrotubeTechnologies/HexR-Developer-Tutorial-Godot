@@ -1,29 +1,8 @@
 class_name HexRTypes
-## Shared enums and constants for the HexR glove. Values match the glove's wire protocol,
-## so a [enum Finger] can be sent as a channel byte as-is.
-
-enum Hand { LEFT, RIGHT }
-
-## Haptic channels in wire order (channel byte 0..5).
-enum Finger { THUMB, INDEX, MIDDLE, RING, PINKY, PALM }
-
-enum HapticMode { OFF, PRESSURE, VIBRATION, PULSE }
-
-enum BatteryState { FULL, MEDIUM, LOW }
-
-## Outbound function indices (app to glove).
-enum Op {
-	AIR_PRESSURE = 0x01,
-	STABLE_PRESSURE_CTRL = 0x02,
-	SET_PRESSURE_DEPRECATED = 0x03,
-	SET_PRESSURE = 0x04,
-	SET_PID = 0x05,
-	SET_BATTERY_LED = 0x06,
-	SET_VIBRATION = 0x07,
-	SET_PULSE = 0x08,
-	SET_VIB_SPEED = 0x09,
-	SET_PULSE_SPEED = 0x0A,
-}
+## Wire-protocol constants and small helpers shared by the addon. The enums a game uses live
+## where the Unity package has them: [enum HaptGloveHandler.HandType],
+## [enum HaptGloveHandler.BatteryState], [enum Haptics.Finger], [enum Haptics.HapticMode] and
+## [enum Haptics.FunIndex].
 
 ## Inbound function indices (glove to app, notifications).
 enum InOp { PRESSURE = 0x01, MICROTUBE = 0x04, CLUTCH_ACTIVATED = 0x05, BATTERY = 0x06 }
@@ -45,7 +24,7 @@ const FINGER_NAMES: Array[String] = ["Thumb", "Index", "Middle", "Ring", "Pinky"
 
 
 static func hand_name(hand: int) -> String:
-	return "Left" if hand == Hand.LEFT else "Right"
+	return "Left" if hand == HaptGloveHandler.HandType.LEFT else "Right"
 
 
 static func finger_name(finger: int) -> String:
@@ -53,7 +32,7 @@ static func finger_name(finger: int) -> String:
 
 
 static func default_device_name(hand: int) -> String:
-	return NAME_LEFT if hand == Hand.LEFT else NAME_RIGHT
+	return NAME_LEFT if hand == HaptGloveHandler.HandType.LEFT else NAME_RIGHT
 
 
 ## Which hand an advertised name belongs to, or -1. The hand is carried only by the name;
@@ -64,7 +43,24 @@ static func hand_from_device_name(device_name: String) -> int:
 		return -1
 	var tail := n.substr(NAME_PREFIX.length()).strip_edges().to_lower()
 	if tail.begins_with("left"):
-		return Hand.LEFT
+		return HaptGloveHandler.HandType.LEFT
 	if tail.begins_with("right"):
-		return Hand.RIGHT
+		return HaptGloveHandler.HandType.RIGHT
 	return -1
+
+
+static var _renamed_warned := {}
+
+
+## Warns once that a scene still uses a 0.1 property name. The components' _set() shims call it
+## while they map the old name onto the new one; HexR > Migration > Upgrade 0.1 scenes rewrites
+## the scene files for good.
+static func warn_renamed(owner: Object, old_name: String, new_name: String) -> void:
+	var cls: String = owner.get_script().get_global_name() if owner.get_script() else owner.get_class()
+	var key := "%s.%s" % [cls, old_name]
+	if _renamed_warned.has(key):
+		return
+	_renamed_warned[key] = true
+	push_warning("[HexR] %s.%s is now %s (HexR 0.2). Run HexR > Migration > Upgrade 0.1 scenes to update your scenes."
+			% [cls, old_name, new_name])
+

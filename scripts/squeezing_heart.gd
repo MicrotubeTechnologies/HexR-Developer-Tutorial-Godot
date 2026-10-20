@@ -1,10 +1,10 @@
 extends Node3D
 ## A heart that beats harder when squeezed (the Unity tutorial's "Squeezing Heart"). Its
-## heart-beat zone pulses the fingers holding it; a squeeze (the HexRSpecialHaptics hand
-## squeeze zone next to it) makes the beat stronger and quicker for a few seconds.
+## heart-beat zone pulses the fingers holding it; a squeeze (the SpecialHaptics hand squeeze zone
+## next to it) makes the beat stronger and quicker for a few seconds.
 
-@export var beat_zone: HexRSpecialHaptics
-@export var squeeze_zone: HexRSpecialHaptics
+@export var beat_zone: SpecialHaptics
+@export var squeeze_zone: SpecialHaptics
 @export var mesh: Node3D
 
 var _excited_until := 0.0

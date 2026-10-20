@@ -12,7 +12,7 @@ config_version=5
 
 config/name="HexR Godot Developer Tutorial"
 config/description="The HexR haptic glove in Godot: grab, pinch, press, pulse, fountain and rain."
-config/version="0.1.0"
+config/version="0.2.0"
 run/main_scene="res://scenes/1_basic_tutorial.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.png"
@@ -30,6 +30,10 @@ window/vsync/vsync_mode=0
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg", "res://addons/hexr/plugin.cfg")
+
+[hexr]
+
+scenes=PackedStringArray("res://scenes/1_basic_tutorial.tscn", "res://scenes/2_hospital_tutorial.tscn", "res://scenes/3_water_effects.tscn")
 
 [layer_names]
 

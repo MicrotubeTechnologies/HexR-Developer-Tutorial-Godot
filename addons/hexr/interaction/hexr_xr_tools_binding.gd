@@ -11,7 +11,7 @@ var _sink: HexRInteractableHaptics
 var _held_by := -1
 
 
-## Binds [param pickable] (or its nearest ancestor with a picked_up signal). Returns null if
+## Binds [param start] (or its nearest ancestor with a picked_up signal). Returns null if
 ## there is nothing to bind to.
 static func bind(start: Node, sink: HexRInteractableHaptics) -> HexRXRToolsBinding:
 	var n := start
@@ -71,13 +71,13 @@ func _hand_of_holder() -> int:
 	if controller is XRController3D:
 		var tracker := String((controller as XRController3D).tracker)
 		if tracker.contains("left"):
-			return HexRTypes.Hand.LEFT
+			return HaptGloveHandler.HandType.LEFT
 		if tracker.contains("right"):
-			return HexRTypes.Hand.RIGHT
+			return HaptGloveHandler.HandType.RIGHT
 	return -1
 
 
-func _controller(hand: int) -> HexRPressureController:
+func _controller(hand: int) -> PressureTrackerMain:
 	if hand < 0:
 		return null
 	var hub := HexRManager.get_instance()

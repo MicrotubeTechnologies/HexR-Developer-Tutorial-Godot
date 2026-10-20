@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://common/player_rig.tscn" id="2_sy6l4"]
 [ext_resource type="FontFile" path="res://addons/hexr/ui/fonts/Archivo-Bold.ttf" id="3_vvdkf"]
 [ext_resource type="FontFile" path="res://addons/hexr/ui/fonts/Inter-Medium.ttf" id="4_5we2u"]
-[ext_resource type="Script" path="res://addons/hexr/components/hexr_special_haptics.gd" id="5_qybxs"]
+[ext_resource type="Script" path="res://addons/hexr/components/special_haptics.gd" id="5_qybxs"]
 [ext_resource type="Script" path="res://addons/hexr/components/hexr_physical_button.gd" id="6_y5ap6"]
 [ext_resource type="Script" path="res://scripts/heartbeat_toggle.gd" id="7_duq56"]
 [ext_resource type="Script" path="res://scripts/squeezing_heart.gd" id="8_2oohl"]
@@ -239,20 +239,20 @@ emission = Color(0.9490196, 0.4, 0.101960786, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_f2p35"]
 size = Vector3(0.28, 0.006, 0.01)
 
-[node name="HospitalTutorial" type="Node3D" unique_id=1670231373]
+[node name="HospitalTutorial" type="Node3D" unique_id=760037831]
 
-[node name="Environment" type="Node3D" parent="." unique_id=1799369186 instance=ExtResource("1_k8oo4")]
+[node name="Environment" type="Node3D" parent="." unique_id=2145984896 instance=ExtResource("1_k8oo4")]
 
-[node name="PlayerRig" type="XROrigin3D" parent="." unique_id=76828025 instance=ExtResource("2_sy6l4")]
+[node name="PlayerRig" type="XROrigin3D" parent="." unique_id=1670889950 instance=ExtResource("2_sy6l4")]
 
-[node name="Heading" type="Label3D" parent="." unique_id=241748880]
+[node name="Heading" type="Label3D" parent="." unique_id=431156096]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -1.6)
 pixel_size = 0.0012
 text = "2 · Hospital Tutorial"
 font = ExtResource("3_vvdkf")
 font_size = 64
 
-[node name="Subheading" type="Label3D" parent="." unique_id=507279906]
+[node name="Subheading" type="Label3D" parent="." unique_id=339113726]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.98, -1.6)
 pixel_size = 0.0012
 modulate = Color(1, 1, 1, 0.7)
@@ -260,132 +260,132 @@ text = "Find the pulse at the wrist and the neck, then hold the heart."
 font = ExtResource("4_5we2u")
 font_size = 30
 
-[node name="Bed" type="StaticBody3D" parent="." unique_id=1478035252]
+[node name="Bed" type="StaticBody3D" parent="." unique_id=957164361]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
 
-[node name="Mattress" type="MeshInstance3D" parent="Bed" unique_id=31946384]
+[node name="Mattress" type="MeshInstance3D" parent="Bed" unique_id=1532552550]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66, 0)
 material_override = SubResource("StandardMaterial3D_ls7ab")
 mesh = SubResource("BoxMesh_s3khe")
 
-[node name="Frame" type="MeshInstance3D" parent="Bed" unique_id=341906959]
+[node name="Frame" type="MeshInstance3D" parent="Bed" unique_id=1527753476]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 material_override = SubResource("StandardMaterial3D_c3km7")
 mesh = SubResource("BoxMesh_y8tju")
 
-[node name="Shape" type="CollisionShape3D" parent="Bed" unique_id=566280096]
+[node name="Shape" type="CollisionShape3D" parent="Bed" unique_id=214264297]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0)
 shape = SubResource("BoxShape3D_5y152")
 
-[node name="Mannequin" type="Node3D" parent="Bed" unique_id=1544023266]
+[node name="Mannequin" type="Node3D" parent="Bed" unique_id=130627709]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74, 0)
 
-[node name="Head" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=786871344]
+[node name="Head" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=1845425089]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.72, 0.08, 0)
 material_override = SubResource("StandardMaterial3D_a5wux")
 mesh = SubResource("SphereMesh_wvmjc")
 
-[node name="Neck" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=642095461]
+[node name="Neck" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=677043293]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.6, 0.06, 0)
 material_override = SubResource("StandardMaterial3D_a5wux")
 mesh = SubResource("CylinderMesh_8exc7")
 
-[node name="Torso" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=14955865]
+[node name="Torso" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=1919178289]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.28, 0.07, 0)
 material_override = SubResource("StandardMaterial3D_pipbw")
 mesh = SubResource("CapsuleMesh_ijlsn")
 
-[node name="ArmRight" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=708630905]
+[node name="ArmRight" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=1529229023]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.25, 0.04, -0.22)
 material_override = SubResource("StandardMaterial3D_a5wux")
 mesh = SubResource("CapsuleMesh_pw4tg")
 
-[node name="LegRight" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=405488030]
+[node name="LegRight" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=635325400]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.4, 0.06, -0.09)
 material_override = SubResource("StandardMaterial3D_ux88n")
 mesh = SubResource("CapsuleMesh_c05jt")
 
-[node name="ArmLeft" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=1489317049]
+[node name="ArmLeft" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=486182025]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.25, 0.04, 0.22)
 material_override = SubResource("StandardMaterial3D_a5wux")
 mesh = SubResource("CapsuleMesh_v1olf")
 
-[node name="LegLeft" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=474449358]
+[node name="LegLeft" type="MeshInstance3D" parent="Bed/Mannequin" unique_id=2093555642]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.4, 0.06, 0.09)
 material_override = SubResource("StandardMaterial3D_flr5r")
 mesh = SubResource("CapsuleMesh_fo4sf")
 
-[node name="WristPulse" type="Area3D" parent="Bed/Mannequin" unique_id=1500983791]
+[node name="WristPulse" type="Area3D" parent="Bed/Mannequin" unique_id=1096956747]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 0.05, 0.22)
 collision_layer = 0
 collision_mask = 524288
 monitorable = false
 script = ExtResource("5_qybxs")
-effect = 4
+type_of_haptics = 4
 
-[node name="Shape" type="CollisionShape3D" parent="Bed/Mannequin/WristPulse" unique_id=499530421]
+[node name="Shape" type="CollisionShape3D" parent="Bed/Mannequin/WristPulse" unique_id=64304793]
 shape = SubResource("SphereShape3D_c8idn")
 
-[node name="NeckPulse" type="Area3D" parent="Bed/Mannequin" unique_id=1456990375]
+[node name="NeckPulse" type="Area3D" parent="Bed/Mannequin" unique_id=2115034649]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.08, 0)
 collision_layer = 0
 collision_mask = 524288
 monitorable = false
 script = ExtResource("5_qybxs")
-effect = 4
+type_of_haptics = 4
 heart_beat_pressure = 0.6
 
-[node name="Shape" type="CollisionShape3D" parent="Bed/Mannequin/NeckPulse" unique_id=431589521]
+[node name="Shape" type="CollisionShape3D" parent="Bed/Mannequin/NeckPulse" unique_id=324978924]
 shape = SubResource("SphereShape3D_f3cbh")
 
-[node name="SignPulsePoints" type="Node3D" parent="." unique_id=357707688]
+[node name="SignPulsePoints" type="Node3D" parent="." unique_id=1899024557]
 transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, -0.35, 1.25, -1.2)
 
-[node name="Panel" type="MeshInstance3D" parent="SignPulsePoints" unique_id=1369335126]
+[node name="Panel" type="MeshInstance3D" parent="SignPulsePoints" unique_id=25090060]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
 material_override = SubResource("StandardMaterial3D_qq11q")
 mesh = SubResource("BoxMesh_ncvux")
 
-[node name="Accent" type="MeshInstance3D" parent="SignPulsePoints" unique_id=1524616835]
+[node name="Accent" type="MeshInstance3D" parent="SignPulsePoints" unique_id=133454453]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
 material_override = SubResource("StandardMaterial3D_ljfny")
 mesh = SubResource("BoxMesh_57yuy")
 
-[node name="Title" type="Label3D" parent="SignPulsePoints" unique_id=1328968462]
+[node name="Title" type="Label3D" parent="SignPulsePoints" unique_id=1978339857]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
 pixel_size = 0.0006
 text = "Pulse points"
 font = ExtResource("3_vvdkf")
 font_size = 36
 
-[node name="Body" type="Label3D" parent="SignPulsePoints" unique_id=422141616]
+[node name="Body" type="Label3D" parent="SignPulsePoints" unique_id=363434582]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
 pixel_size = 0.0006
 modulate = Color(1, 1, 1, 0.8)
 text = "Rest two fingertips on the wrist or the neck.
-HexRSpecialHaptics, heart beat effect."
+SpecialHaptics, heart beat effect."
 font = ExtResource("4_5we2u")
 font_size = 22
 vertical_alignment = 0
 autowrap_mode = 3
 width = 550.0
 
-[node name="ToggleButton" type="StaticBody3D" parent="." unique_id=471576195]
+[node name="ToggleButton" type="StaticBody3D" parent="." unique_id=920846892]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.95, -0.35)
 
-[node name="Base" type="MeshInstance3D" parent="ToggleButton" unique_id=334838970]
+[node name="Base" type="MeshInstance3D" parent="ToggleButton" unique_id=1563429564]
 material_override = SubResource("StandardMaterial3D_jchso")
 mesh = SubResource("CylinderMesh_5yhfl")
 
-[node name="Shape" type="CollisionShape3D" parent="ToggleButton" unique_id=1582304403]
+[node name="Shape" type="CollisionShape3D" parent="ToggleButton" unique_id=1395758254]
 shape = SubResource("CylinderShape3D_ur5qk")
 
-[node name="Cap" type="MeshInstance3D" parent="ToggleButton" unique_id=1347990055]
+[node name="Cap" type="MeshInstance3D" parent="ToggleButton" unique_id=1120958480]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.022, 0)
 material_override = SubResource("StandardMaterial3D_gskkt")
 mesh = SubResource("CylinderMesh_br302")
 
-[node name="HexRPhysicalButton" type="Area3D" parent="ToggleButton" unique_id=2057723532 node_paths=PackedStringArray("cap")]
+[node name="HexRPhysicalButton" type="Area3D" parent="ToggleButton" unique_id=186905698 node_paths=PackedStringArray("cap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
 collision_layer = 0
 collision_mask = 524288
@@ -393,149 +393,149 @@ monitorable = false
 script = ExtResource("6_y5ap6")
 cap = NodePath("../Cap")
 
-[node name="Shape" type="CollisionShape3D" parent="ToggleButton/HexRPhysicalButton" unique_id=1247922711]
+[node name="Shape" type="CollisionShape3D" parent="ToggleButton/HexRPhysicalButton" unique_id=819037548]
 shape = SubResource("CylinderShape3D_vt8hh")
 
-[node name="ButtonStand" type="StaticBody3D" parent="." unique_id=2113176612]
+[node name="ButtonStand" type="StaticBody3D" parent="." unique_id=6486953]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.17, -0.35)
 
-[node name="Top" type="MeshInstance3D" parent="ButtonStand" unique_id=317650130]
+[node name="Top" type="MeshInstance3D" parent="ButtonStand" unique_id=987776379]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
 material_override = SubResource("StandardMaterial3D_ypje2")
 mesh = SubResource("BoxMesh_mbgeg")
 
-[node name="TopShape" type="CollisionShape3D" parent="ButtonStand" unique_id=1647377128]
+[node name="TopShape" type="CollisionShape3D" parent="ButtonStand" unique_id=1099841700]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
 shape = SubResource("BoxShape3D_lvr7d")
 
-[node name="Leg00" type="MeshInstance3D" parent="ButtonStand" unique_id=1272548519]
+[node name="Leg00" type="MeshInstance3D" parent="ButtonStand" unique_id=1831665327]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10000001, 0.39, -0.10000001)
 material_override = SubResource("StandardMaterial3D_pfycw")
 mesh = SubResource("BoxMesh_ww2jw")
 
-[node name="Leg02" type="MeshInstance3D" parent="ButtonStand" unique_id=773398840]
+[node name="Leg02" type="MeshInstance3D" parent="ButtonStand" unique_id=566687002]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10000001, 0.39, 0.10000001)
 material_override = SubResource("StandardMaterial3D_s15yd")
 mesh = SubResource("BoxMesh_rvcb7")
 
-[node name="Leg20" type="MeshInstance3D" parent="ButtonStand" unique_id=1444819024]
+[node name="Leg20" type="MeshInstance3D" parent="ButtonStand" unique_id=1894541150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10000001, 0.39, -0.10000001)
 material_override = SubResource("StandardMaterial3D_36m60")
 mesh = SubResource("BoxMesh_yumon")
 
-[node name="Leg22" type="MeshInstance3D" parent="ButtonStand" unique_id=240644364]
+[node name="Leg22" type="MeshInstance3D" parent="ButtonStand" unique_id=547973446]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10000001, 0.39, 0.10000001)
 material_override = SubResource("StandardMaterial3D_lmjr6")
 mesh = SubResource("BoxMesh_tyi75")
 
-[node name="PulseLabel" type="Label3D" parent="." unique_id=582875776]
+[node name="PulseLabel" type="Label3D" parent="." unique_id=979924328]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.08, -0.35)
 pixel_size = 0.0008
 font = ExtResource("4_5we2u")
 font_size = 28
 
-[node name="HeartbeatToggle" type="Node" parent="." unique_id=1685435547 node_paths=PackedStringArray("label")]
+[node name="HeartbeatToggle" type="Node" parent="." unique_id=961349392 node_paths=PackedStringArray("label")]
 script = ExtResource("7_duq56")
 label = NodePath("../PulseLabel")
 
-[node name="HeartStand" type="StaticBody3D" parent="." unique_id=487740815]
+[node name="HeartStand" type="StaticBody3D" parent="." unique_id=1373004856]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85, 0.15, -0.2)
 
-[node name="Top" type="MeshInstance3D" parent="HeartStand" unique_id=1744917664]
+[node name="Top" type="MeshInstance3D" parent="HeartStand" unique_id=497524463]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
 material_override = SubResource("StandardMaterial3D_0yxnl")
 mesh = SubResource("BoxMesh_cfeox")
 
-[node name="TopShape" type="CollisionShape3D" parent="HeartStand" unique_id=1733942709]
+[node name="TopShape" type="CollisionShape3D" parent="HeartStand" unique_id=405530332]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
 shape = SubResource("BoxShape3D_85myp")
 
-[node name="Leg00" type="MeshInstance3D" parent="HeartStand" unique_id=922652295]
+[node name="Leg00" type="MeshInstance3D" parent="HeartStand" unique_id=836106679]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10000001, 0.39, -0.10000001)
 material_override = SubResource("StandardMaterial3D_bulmy")
 mesh = SubResource("BoxMesh_dxpqq")
 
-[node name="Leg02" type="MeshInstance3D" parent="HeartStand" unique_id=1494118605]
+[node name="Leg02" type="MeshInstance3D" parent="HeartStand" unique_id=537295848]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10000001, 0.39, 0.10000001)
 material_override = SubResource("StandardMaterial3D_vhh0g")
 mesh = SubResource("BoxMesh_43tni")
 
-[node name="Leg20" type="MeshInstance3D" parent="HeartStand" unique_id=1995781808]
+[node name="Leg20" type="MeshInstance3D" parent="HeartStand" unique_id=2059226308]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10000001, 0.39, -0.10000001)
 material_override = SubResource("StandardMaterial3D_0jnnj")
 mesh = SubResource("BoxMesh_056x0")
 
-[node name="Leg22" type="MeshInstance3D" parent="HeartStand" unique_id=338476064]
+[node name="Leg22" type="MeshInstance3D" parent="HeartStand" unique_id=1184863655]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10000001, 0.39, 0.10000001)
 material_override = SubResource("StandardMaterial3D_6fhj7")
 mesh = SubResource("BoxMesh_8gfi1")
 
-[node name="Heart" type="Node3D" parent="HeartStand" unique_id=1889765471 node_paths=PackedStringArray("beat_zone", "squeeze_zone", "mesh")]
+[node name="Heart" type="Node3D" parent="HeartStand" unique_id=1306320329 node_paths=PackedStringArray("beat_zone", "squeeze_zone", "mesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
 script = ExtResource("8_2oohl")
 beat_zone = NodePath("BeatZone")
 squeeze_zone = NodePath("SqueezeZone")
 mesh = NodePath("Shape")
 
-[node name="Shape" type="Node3D" parent="HeartStand/Heart" unique_id=1467138349]
+[node name="Shape" type="Node3D" parent="HeartStand/Heart" unique_id=1253693838]
 
-[node name="LobeLeft" type="MeshInstance3D" parent="HeartStand/Heart/Shape" unique_id=1265677408]
+[node name="LobeLeft" type="MeshInstance3D" parent="HeartStand/Heart/Shape" unique_id=333926539]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.025, 0.02, 0)
 material_override = SubResource("StandardMaterial3D_xm1se")
 mesh = SubResource("SphereMesh_elt2r")
 
-[node name="LobeRight" type="MeshInstance3D" parent="HeartStand/Heart/Shape" unique_id=739336105]
+[node name="LobeRight" type="MeshInstance3D" parent="HeartStand/Heart/Shape" unique_id=1705968960]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025, 0.02, 0)
 material_override = SubResource("StandardMaterial3D_xm1se")
 mesh = SubResource("SphereMesh_muii5")
 
-[node name="Tip" type="MeshInstance3D" parent="HeartStand/Heart/Shape" unique_id=668998262]
+[node name="Tip" type="MeshInstance3D" parent="HeartStand/Heart/Shape" unique_id=1505999504]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, 0)
 material_override = SubResource("StandardMaterial3D_xm1se")
 mesh = SubResource("CylinderMesh_f4141")
 
-[node name="BeatZone" type="Area3D" parent="HeartStand/Heart" unique_id=1201382778]
+[node name="BeatZone" type="Area3D" parent="HeartStand/Heart" unique_id=35522934]
 collision_layer = 0
 collision_mask = 524288
 monitorable = false
 script = ExtResource("5_qybxs")
-effect = 4
+type_of_haptics = 4
 include_palm = true
 
-[node name="Shape" type="CollisionShape3D" parent="HeartStand/Heart/BeatZone" unique_id=1328674778]
+[node name="Shape" type="CollisionShape3D" parent="HeartStand/Heart/BeatZone" unique_id=1501503263]
 shape = SubResource("SphereShape3D_jxqd4")
 
-[node name="SqueezeZone" type="Area3D" parent="HeartStand/Heart" unique_id=2068213976]
+[node name="SqueezeZone" type="Area3D" parent="HeartStand/Heart" unique_id=1235131104]
 collision_layer = 0
 collision_mask = 524288
 monitorable = false
 script = ExtResource("5_qybxs")
-effect = 5
+type_of_haptics = 5
 
-[node name="Shape" type="CollisionShape3D" parent="HeartStand/Heart/SqueezeZone" unique_id=986754714]
+[node name="Shape" type="CollisionShape3D" parent="HeartStand/Heart/SqueezeZone" unique_id=618897489]
 shape = SubResource("SphereShape3D_44wgv")
 
-[node name="SignHeart" type="Node3D" parent="HeartStand" unique_id=1843572887]
+[node name="SignHeart" type="Node3D" parent="HeartStand" unique_id=870327452]
 transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, 0, 1.05, -0.12)
 
-[node name="Panel" type="MeshInstance3D" parent="HeartStand/SignHeart" unique_id=697224285]
+[node name="Panel" type="MeshInstance3D" parent="HeartStand/SignHeart" unique_id=376357227]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
 material_override = SubResource("StandardMaterial3D_lyqe4")
 mesh = SubResource("BoxMesh_m6fmj")
 
-[node name="Accent" type="MeshInstance3D" parent="HeartStand/SignHeart" unique_id=1887223377]
+[node name="Accent" type="MeshInstance3D" parent="HeartStand/SignHeart" unique_id=1683899980]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
 material_override = SubResource("StandardMaterial3D_tiefw")
 mesh = SubResource("BoxMesh_f2p35")
 
-[node name="Title" type="Label3D" parent="HeartStand/SignHeart" unique_id=1649848926]
+[node name="Title" type="Label3D" parent="HeartStand/SignHeart" unique_id=544955600]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
 pixel_size = 0.0006
 text = "Heart"
 font = ExtResource("3_vvdkf")
 font_size = 36
 
-[node name="Body" type="Label3D" parent="HeartStand/SignHeart" unique_id=369062798]
+[node name="Body" type="Label3D" parent="HeartStand/SignHeart" unique_id=464973212]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
 pixel_size = 0.0006
 modulate = Color(1, 1, 1, 0.8)

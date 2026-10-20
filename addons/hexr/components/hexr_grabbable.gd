@@ -12,11 +12,12 @@ extends Area3D
 signal grabbed(hand: int)
 signal released(hand: int)
 
-enum GrabType { PINCH, PALM }
+## Unity's grab types.
+enum Options { PINCH_GRAB, PALM_GRAB }
 
-@export var grab_type: GrabType = GrabType.PINCH
+@export var type_of_grab: Options = Options.PINCH_GRAB
 ## The object that moves. Empty uses the parent.
-@export var target: Node3D
+@export var the_object: Node3D
 ## Gravity on the object after it is let go (for a RigidBody3D).
 @export var gravity_on_release := true
 ## How firmly each touching finger is pressed: 10 barely there, 60 firm, 0 no haptics.
@@ -27,7 +28,7 @@ enum GrabType { PINCH, PALM }
 @export var lost_contact_grace := 0.2
 
 var _grab_hand := -1
-var _anchor: HexRTouchPoint
+var _anchor: HapticFingerTrigger
 var _offset := Transform3D()
 var _grabbed_at := 0.0
 var _anchor_lost_at := -1.0
@@ -44,8 +45,23 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	if target == null:
-		target = get_parent() as Node3D
+	if Engine.is_editor_hint():
+		return
+	if the_object == null:
+		the_object = get_parent() as Node3D
+
+
+# Scenes saved with HexR 0.1 use the old property names.
+func _set(property: StringName, value: Variant) -> bool:
+	match property:
+		&"grab_type":
+			type_of_grab = value
+		&"target":
+			the_object = value
+		_:
+			return false
+	HexRTypes.warn_renamed(self, property, {&"grab_type": "type_of_grab", &"target": "the_object"}[property])
+	return true
 
 
 func is_grabbed() -> bool:
@@ -58,20 +74,20 @@ func grabbing_hand() -> int:
 
 
 func _anchor_finger() -> int:
-	return HexRTypes.Finger.THUMB if grab_type == GrabType.PINCH else HexRTypes.Finger.PALM
+	return Haptics.Finger.THUMB if type_of_grab == Options.PINCH_GRAB else Haptics.Finger.PALM
 
 
 func _physics_process(delta: float) -> void:
 	_clock += delta
 	var touching := [[null, null, null, null, null, null], [null, null, null, null, null, null]]
 	for area in get_overlapping_areas():
-		if area is HexRTouchPoint:
-			touching[area.hand][area.finger] = area
+		if area is HapticFingerTrigger:
+			touching[area.hand_type][area.finger_type] = area
 	var anchor_finger := _anchor_finger()
 
 	if _grab_hand < 0:
 		# Right hand first, as in the Unity package.
-		for hand in [HexRTypes.Hand.RIGHT, HexRTypes.Hand.LEFT]:
+		for hand in [HaptGloveHandler.HandType.RIGHT, HaptGloveHandler.HandType.LEFT]:
 			if touching[hand][anchor_finger] != null and _another_finger(touching[hand]):
 				_grab(hand, touching[hand][anchor_finger])
 				break
@@ -95,22 +111,22 @@ func _physics_process(delta: float) -> void:
 
 
 func _another_finger(row: Array) -> bool:
-	return row[HexRTypes.Finger.INDEX] != null or row[HexRTypes.Finger.MIDDLE] != null \
-			or row[HexRTypes.Finger.RING] != null or row[HexRTypes.Finger.PINKY] != null
+	return row[Haptics.Finger.INDEX] != null or row[Haptics.Finger.MIDDLE] != null \
+			or row[Haptics.Finger.RING] != null or row[Haptics.Finger.PINKY] != null
 
 
-func _grab(hand: int, anchor: HexRTouchPoint) -> void:
-	if target == null:
+func _grab(hand: int, anchor: HapticFingerTrigger) -> void:
+	if the_object == null:
 		return
 	_grab_hand = hand
 	_anchor = anchor
-	_offset = anchor.global_transform.affine_inverse() * target.global_transform
+	_offset = anchor.global_transform.affine_inverse() * the_object.global_transform
 	_grabbed_at = _clock
 	_anchor_lost_at = -1.0
-	_last_position = target.global_position
+	_last_position = the_object.global_position
 	_velocity = Vector3.ZERO
-	if target is RigidBody3D:
-		var body := target as RigidBody3D
+	if the_object is RigidBody3D:
+		var body := the_object as RigidBody3D
 		body.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
 		body.freeze = true
 	var c := _controller(hand)
@@ -120,12 +136,12 @@ func _grab(hand: int, anchor: HexRTouchPoint) -> void:
 
 
 func _follow(delta: float) -> void:
-	if not is_instance_valid(_anchor) or target == null:
+	if not is_instance_valid(_anchor) or the_object == null:
 		return
-	target.global_transform = _anchor.global_transform * _offset
+	the_object.global_transform = _anchor.global_transform * _offset
 	if delta > 0.0:
-		_velocity = _velocity.lerp((target.global_position - _last_position) / delta, 0.5)
-	_last_position = target.global_position
+		_velocity = _velocity.lerp((the_object.global_position - _last_position) / delta, 0.5)
+	_last_position = the_object.global_position
 
 
 func _update_finger_haptics(row: Array) -> void:
@@ -134,7 +150,7 @@ func _update_finger_haptics(row: Array) -> void:
 	var g := _glove(_grab_hand)
 	if g == null:
 		return
-	var intensity := HexRPressureController.strength_to_intensity(haptic_strength)
+	var intensity := PressureTrackerMain.strength_to_intensity(haptic_strength)
 	var out := PackedByteArray()
 	for f in 6:
 		var touching: bool = row[f] != null
@@ -149,8 +165,8 @@ func _let_go() -> void:
 	var hand := _grab_hand
 	_grab_hand = -1
 	_anchor = null
-	if target is RigidBody3D:
-		var body := target as RigidBody3D
+	if the_object is RigidBody3D:
+		var body := the_object as RigidBody3D
 		body.freeze = false
 		body.gravity_scale = 1.0 if gravity_on_release else 0.0
 		body.linear_velocity = _velocity
@@ -178,16 +194,16 @@ func _exit_tree() -> void:
 		_let_go()
 
 
-func _finger_use(hand: int) -> HexRFingerUseTracking:
+func _finger_use(hand: int) -> FingerUseTracking:
 	var hub := HexRManager.get_instance()
 	return hub.finger_use(hand) if hub else null
 
 
-func _glove(hand: int) -> HexRGlove:
+func _glove(hand: int) -> HaptGloveHandler:
 	var hub := HexRManager.get_instance()
 	return hub.glove(hand) if hub else null
 
 
-func _controller(hand: int) -> HexRPressureController:
+func _controller(hand: int) -> PressureTrackerMain:
 	var hub := HexRManager.get_instance()
 	return hub.controller(hand) if hub else null

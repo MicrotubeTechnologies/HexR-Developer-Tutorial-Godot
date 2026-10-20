@@ -30,5 +30,5 @@ func reset_props() -> void:
 			(n as RigidBody3D).angular_velocity = Vector3.ZERO
 	var hub := HexRManager.get_instance()
 	if hub:
-		hub.left.release_all_channels()
-		hub.right.release_all_channels()
+		hub.left_hand.release_all_channels()
+		hub.right_hand.release_all_channels()

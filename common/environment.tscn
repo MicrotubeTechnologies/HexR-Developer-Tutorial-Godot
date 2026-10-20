@@ -37,27 +37,27 @@ emission_energy_multiplier = 0.8
 inner_radius = 0.28
 outer_radius = 0.3
 
-[node name="Environment" type="Node3D" unique_id=1799369186]
+[node name="Environment" type="Node3D" unique_id=2145984896]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=476275698]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=993317436]
 environment = SubResource("Environment_4yuys")
 
-[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1832222360]
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1502438869]
 transform = Transform3D(0.81915206, -0.46984634, 0.32898995, 0, 0.57357645, 0.81915206, -0.57357645, -0.6710101, 0.46984634, 0, 0, 0)
 light_energy = 1.1
 shadow_enabled = true
 
-[node name="Floor" type="StaticBody3D" parent="." unique_id=38555793]
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1391265150]
 
-[node name="Mesh" type="MeshInstance3D" parent="Floor" unique_id=1768098211]
+[node name="Mesh" type="MeshInstance3D" parent="Floor" unique_id=505853179]
 material_override = SubResource("StandardMaterial3D_xhbd6")
 mesh = SubResource("PlaneMesh_x1gnl")
 
-[node name="Shape" type="CollisionShape3D" parent="Floor" unique_id=934658178]
+[node name="Shape" type="CollisionShape3D" parent="Floor" unique_id=1813381181]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_ydasc")
 
-[node name="StandHere" type="MeshInstance3D" parent="." unique_id=908163286]
+[node name="StandHere" type="MeshInstance3D" parent="." unique_id=1846004863]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.005, 0)
 material_override = SubResource("StandardMaterial3D_ht64h")
 mesh = SubResource("TorusMesh_lendl")

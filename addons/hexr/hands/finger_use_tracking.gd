@@ -1,4 +1,4 @@
-class_name HexRFingerUseTracking
+class_name FingerUseTracking
 extends RefCounted
 ## How curled each finger is, from 0 (fully curled) to 1 (fully extended). Port of the Unity
 ## package's FingerUseTracking: each finger's tip-to-knuckle distance, normalised against the
@@ -33,15 +33,15 @@ func update(distances: PackedFloat32Array) -> void:
 ## The use of [param finger] (Thumb..Pinky); the palm has none.
 func get_use(finger: int) -> float:
 	match finger:
-		HexRTypes.Finger.THUMB:
+		Haptics.Finger.THUMB:
 			return thumb_use
-		HexRTypes.Finger.INDEX:
+		Haptics.Finger.INDEX:
 			return index_use
-		HexRTypes.Finger.MIDDLE:
+		Haptics.Finger.MIDDLE:
 			return middle_use
-		HexRTypes.Finger.RING:
+		Haptics.Finger.RING:
 			return ring_use
-		HexRTypes.Finger.PINKY:
+		Haptics.Finger.PINKY:
 			return little_use
 	return 0.0
 

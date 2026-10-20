@@ -1,24 +1,76 @@
-class_name HexRPressureController
+class_name PressureTrackerMain
 extends Node
 ## A hand's "Pressure Controller" (port of the Unity package's PressureTrackerMain). Every
 ## haptic for that hand goes through here; a hand without one produces no haptics. Reach it as
-## [code]HexR.controller(HexRTypes.Hand.LEFT)[/code].
+## [code]HexR.controller(HaptGloveHandler.HandType.LEFT)[/code].
 ##
 ## Calls other than the [code]remove_*[/code] ones only fire while the hand is near something:
-## grabbing, poke-hovering, or touching a [HexRProximityCheck] (the "hand-near check"). Pass
+## grabbing, poke-hovering, or touching a [ProximityCheck] (the "hand-near check"). Pass
 ## [code]bypass_hand_check[/code] to the custom calls to skip it.
 ##
 ## Intensity is 0.1..1 (about 15..50 kPa). Components use a 10..60 strength scale; convert with
 ## [method strength_to_intensity].
 
-const F := HexRTypes.Finger
+const F := Haptics.Finger
 
-@export var hand: HexRTypes.Hand = HexRTypes.Hand.LEFT
+@export var hand_type: HaptGloveHandler.HandType = HaptGloveHandler.HandType.LEFT
 
 ## Set by grab interactions (HexRGrabbable, the XR Tools binding).
 var hand_grabbing := false
 ## Set by poke interactions.
 var poke_hovering := false
+
+## The glove's latest pressure readings, raw as the glove reports them, as in the Unity package
+## ([method HaptGloveHandler.get_air_pressure]); 0 without a connected glove. Read-only.
+## [method get_pressures_kpa] gives them in kPa.
+var thumb_pressure: int:
+	get:
+		return _reading(0)
+	set(_v):
+		_read_only("thumb_pressure")
+var index_pressure: int:
+	get:
+		return _reading(1)
+	set(_v):
+		_read_only("index_pressure")
+var middle_pressure: int:
+	get:
+		return _reading(2)
+	set(_v):
+		_read_only("middle_pressure")
+var ring_pressure: int:
+	get:
+		return _reading(3)
+	set(_v):
+		_read_only("ring_pressure")
+var little_pressure: int:
+	get:
+		return _reading(4)
+	set(_v):
+		_read_only("little_pressure")
+var palm_pressure: int:
+	get:
+		return _reading(5)
+	set(_v):
+		_read_only("palm_pressure")
+var tank_pressure: int:
+	get:
+		return _reading(6)
+	set(_v):
+		_read_only("tank_pressure")
+## This hand's glove (Unity [code]gloveHandler[/code]), or null. Read-only.
+var glove_handler: HaptGloveHandler:
+	get:
+		return glove()
+	set(_v):
+		_read_only("glove_handler")
+## True while a ProximityCheck (or [method is_physics_collision_near]) holds this hand near
+## (Unity [code]CollisionNearHand[/code]). Read-only.
+var collision_near_hand: bool:
+	get:
+		return collision_near()
+	set(_v):
+		_read_only("collision_near_hand")
 
 var _manual_collision_near := false
 var _near_sources: Dictionary = {}
@@ -28,7 +80,7 @@ var _warned_no_glove := false
 func _enter_tree() -> void:
 	var hub := HexRManager.get_instance()
 	if hub:
-		hub._register_controller(self, hand)
+		hub._register_controller(self, hand_type)
 
 
 func _exit_tree() -> void:
@@ -43,15 +95,15 @@ static func strength_to_intensity(strength: float) -> float:
 
 
 ## This hand's glove, or null.
-func glove() -> HexRGlove:
+func glove() -> HaptGloveHandler:
 	var hub := HexRManager.get_instance()
-	return hub.glove(hand) if hub else null
+	return hub.glove(hand_type) if hub else null
 
 
 ## This hand's tracked hand (joints, touch points, finger curl), or null.
 func tracked_hand() -> HexRTrackedHand:
 	var hub := HexRManager.get_instance()
-	return hub.tracked_hand(hand) if hub else null
+	return hub.tracked_hand(hand_type) if hub else null
 
 
 # -- hand-near check -----------------------------------------------------------------------
@@ -209,9 +261,9 @@ func remove_all_vibrations() -> void:
 		g.bt_send(out)
 
 
-## One short pulse on every channel. Replaces the Unity package's TriggerPulseIt, which used a
-## deprecated command.
-func trigger_pulse_all(intensity: float = 0.3) -> void:
+## One short pulse on every channel (Unity [code]TriggerPulseIt[/code], which used a deprecated
+## command; this sends one pulse per channel instead).
+func trigger_pulse_it(intensity: float = 0.3) -> void:
 	var g := _glove_or_warn()
 	if g:
 		var out := PackedByteArray()
@@ -238,10 +290,22 @@ func _release(finger: int) -> void:
 		g.bt_send(g.haptics.hexr_pressure(finger, false, 0.0, 1.0))
 
 
-func _glove_or_warn() -> HexRGlove:
+func _reading(i: int) -> int:
+	var g := glove()
+	if g == null:
+		return 0
+	var raw := g.get_air_pressure()
+	return raw[i] if i < raw.size() else 0
+
+
+func _read_only(property: String) -> void:
+	push_error("PressureTrackerMain.%s is read-only." % property)
+
+
+func _glove_or_warn() -> HaptGloveHandler:
 	var g := glove()
 	if g == null and not _warned_no_glove:
 		_warned_no_glove = true
 		push_warning("[HexR] %s Pressure Controller has no HexR autoload to send to, so haptics are skipped."
-				% HexRTypes.hand_name(hand))
+				% HexRTypes.hand_name(hand_type))
 	return g

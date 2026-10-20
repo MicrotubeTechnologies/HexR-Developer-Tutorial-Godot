@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://common/player_rig.tscn" id="2_ravw1"]
 [ext_resource type="FontFile" path="res://addons/hexr/ui/fonts/Archivo-Bold.ttf" id="3_hj0c6"]
 [ext_resource type="FontFile" path="res://addons/hexr/ui/fonts/Inter-Medium.ttf" id="4_u31a7"]
-[ext_resource type="Script" path="res://addons/hexr/components/hexr_special_haptics.gd" id="5_sk3s0"]
+[ext_resource type="Script" path="res://addons/hexr/components/special_haptics.gd" id="5_sk3s0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t8x8q"]
 albedo_color = Color(0.55, 0.55, 0.58, 1)
@@ -146,20 +146,20 @@ emission = Color(0.9490196, 0.4, 0.101960786, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_ayr0w"]
 size = Vector3(0.32, 0.006, 0.01)
 
-[node name="WaterEffects" type="Node3D" unique_id=65103288]
+[node name="WaterEffects" type="Node3D" unique_id=135497116]
 
-[node name="Environment" type="Node3D" parent="." unique_id=1799369186 instance=ExtResource("1_u4vq3")]
+[node name="Environment" type="Node3D" parent="." unique_id=2145984896 instance=ExtResource("1_u4vq3")]
 
-[node name="PlayerRig" type="XROrigin3D" parent="." unique_id=76828025 instance=ExtResource("2_ravw1")]
+[node name="PlayerRig" type="XROrigin3D" parent="." unique_id=1670889950 instance=ExtResource("2_ravw1")]
 
-[node name="Heading" type="Label3D" parent="." unique_id=615596325]
+[node name="Heading" type="Label3D" parent="." unique_id=109801579]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -1.6)
 pixel_size = 0.0012
 text = "3 · Water Effects"
 font = ExtResource("3_hj0c6")
 font_size = 64
 
-[node name="Subheading" type="Label3D" parent="." unique_id=1509847643]
+[node name="Subheading" type="Label3D" parent="." unique_id=1723448406]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.98, -1.6)
 pixel_size = 0.0012
 modulate = Color(1, 1, 1, 0.7)
@@ -167,154 +167,154 @@ text = "Put your fingers in the fountain. Hold your palm up under the cloud."
 font = ExtResource("4_u31a7")
 font_size = 30
 
-[node name="Fountain" type="StaticBody3D" parent="." unique_id=1495253414]
+[node name="Fountain" type="StaticBody3D" parent="." unique_id=1952991549]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0, -0.6)
 
-[node name="Pedestal" type="MeshInstance3D" parent="Fountain" unique_id=660138252]
+[node name="Pedestal" type="MeshInstance3D" parent="Fountain" unique_id=1633001292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
 material_override = SubResource("StandardMaterial3D_t8x8q")
 mesh = SubResource("CylinderMesh_oouih")
 
-[node name="Shape" type="CollisionShape3D" parent="Fountain" unique_id=281460110]
+[node name="Shape" type="CollisionShape3D" parent="Fountain" unique_id=1557090878]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
 shape = SubResource("CylinderShape3D_2wob8")
 
-[node name="Rim" type="MeshInstance3D" parent="Fountain" unique_id=1027865554]
+[node name="Rim" type="MeshInstance3D" parent="Fountain" unique_id=1351542317]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76, 0)
 material_override = SubResource("StandardMaterial3D_t8x8q")
 mesh = SubResource("TorusMesh_ko70v")
 
-[node name="Water" type="MeshInstance3D" parent="Fountain" unique_id=66800872]
+[node name="Water" type="MeshInstance3D" parent="Fountain" unique_id=715977284]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74, 0)
 material_override = SubResource("StandardMaterial3D_qx2dq")
 mesh = SubResource("CylinderMesh_en2hl")
 
-[node name="Jet" type="GPUParticles3D" parent="Fountain" unique_id=1314780493]
+[node name="Jet" type="GPUParticles3D" parent="Fountain" unique_id=2130833648]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0)
 amount = 220
 process_material = SubResource("ParticleProcessMaterial_f716j")
 draw_pass_1 = SubResource("SphereMesh_2jinc")
 
-[node name="FountainZone" type="Area3D" parent="Fountain" unique_id=1400435914]
+[node name="FountainZone" type="Area3D" parent="Fountain" unique_id=1679305547]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98, 0)
 collision_layer = 0
 collision_mask = 524288
 monitorable = false
 script = ExtResource("5_sk3s0")
-effect = 2
+type_of_haptics = 2
 
-[node name="Shape" type="CollisionShape3D" parent="Fountain/FountainZone" unique_id=830802180]
+[node name="Shape" type="CollisionShape3D" parent="Fountain/FountainZone" unique_id=1119309418]
 shape = SubResource("CylinderShape3D_ch7rt")
 
-[node name="SignFountain" type="Node3D" parent="." unique_id=1070857883]
+[node name="SignFountain" type="Node3D" parent="." unique_id=379945753]
 transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, -0.45, 1.45, -1)
 
-[node name="Panel" type="MeshInstance3D" parent="SignFountain" unique_id=1177457336]
+[node name="Panel" type="MeshInstance3D" parent="SignFountain" unique_id=443611246]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
 material_override = SubResource("StandardMaterial3D_hw5k8")
 mesh = SubResource("BoxMesh_xtehi")
 
-[node name="Accent" type="MeshInstance3D" parent="SignFountain" unique_id=752904294]
+[node name="Accent" type="MeshInstance3D" parent="SignFountain" unique_id=942171801]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
 material_override = SubResource("StandardMaterial3D_ouu58")
 mesh = SubResource("BoxMesh_teaer")
 
-[node name="Title" type="Label3D" parent="SignFountain" unique_id=1568489256]
+[node name="Title" type="Label3D" parent="SignFountain" unique_id=2114077574]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
 pixel_size = 0.0006
 text = "Fountain"
 font = ExtResource("3_hj0c6")
 font_size = 36
 
-[node name="Body" type="Label3D" parent="SignFountain" unique_id=562137942]
+[node name="Body" type="Label3D" parent="SignFountain" unique_id=1632218477]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
 pixel_size = 0.0006
 modulate = Color(1, 1, 1, 0.8)
 text = "Put your fingers into the jet.
-HexRSpecialHaptics, fountain effect: 18 Hz."
+SpecialHaptics, fountain effect: 18 Hz."
 font = ExtResource("4_u31a7")
 font_size = 22
 vertical_alignment = 0
 autowrap_mode = 3
 width = 483.33334
 
-[node name="RainCloud" type="Node3D" parent="." unique_id=406144921]
+[node name="RainCloud" type="Node3D" parent="." unique_id=715069336]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.05, -0.45)
 
-[node name="Puff0" type="MeshInstance3D" parent="RainCloud" unique_id=1605158176]
+[node name="Puff0" type="MeshInstance3D" parent="RainCloud" unique_id=550635973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 0, 0)
 material_override = SubResource("StandardMaterial3D_du5ot")
 mesh = SubResource("SphereMesh_osehq")
 
-[node name="Puff1" type="MeshInstance3D" parent="RainCloud" unique_id=446784673]
+[node name="Puff1" type="MeshInstance3D" parent="RainCloud" unique_id=1801650322]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08956279, 0.029828208, 0.12143925)
 material_override = SubResource("StandardMaterial3D_du5ot")
 mesh = SubResource("SphereMesh_fu26k")
 
-[node name="Puff2" type="MeshInstance3D" parent="RainCloud" unique_id=98697944]
+[node name="Puff2" type="MeshInstance3D" parent="RainCloud" unique_id=944347257]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.090872295, -0.03974764, 0.12084931)
 material_override = SubResource("StandardMaterial3D_du5ot")
 mesh = SubResource("SphereMesh_vop6l")
 
-[node name="Puff3" type="MeshInstance3D" parent="RainCloud" unique_id=1255272404]
+[node name="Puff3" type="MeshInstance3D" parent="RainCloud" unique_id=2043270797]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17999364, 0.02313759, -0.0011770147)
 material_override = SubResource("StandardMaterial3D_du5ot")
 mesh = SubResource("SphereMesh_hrrbj")
 
-[node name="Puff4" type="MeshInstance3D" parent="RainCloud" unique_id=9598590]
+[node name="Puff4" type="MeshInstance3D" parent="RainCloud" unique_id=2116901734]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08824695, 0.008915597, -0.12202061)
 material_override = SubResource("StandardMaterial3D_du5ot")
 mesh = SubResource("SphereMesh_iptou")
 
-[node name="Puff5" type="MeshInstance3D" parent="RainCloud" unique_id=572613645]
+[node name="Puff5" type="MeshInstance3D" parent="RainCloud" unique_id=190985587]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09217539, -0.035018086, -0.12025083)
 material_override = SubResource("StandardMaterial3D_du5ot")
 mesh = SubResource("SphereMesh_8k1u4")
 
-[node name="Rain" type="GPUParticles3D" parent="RainCloud" unique_id=65938342]
+[node name="Rain" type="GPUParticles3D" parent="RainCloud" unique_id=1172222947]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 amount = 160
 lifetime = 1.2
 process_material = SubResource("ParticleProcessMaterial_nt8a6")
 draw_pass_1 = SubResource("SphereMesh_ouic8")
 
-[node name="RainZone" type="Area3D" parent="." unique_id=277156521]
+[node name="RainZone" type="Area3D" parent="." unique_id=1017599801]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.35, -0.45)
 collision_layer = 0
 collision_mask = 524288
 monitorable = false
 script = ExtResource("5_sk3s0")
-effect = 3
+type_of_haptics = 3
 
-[node name="Shape" type="CollisionShape3D" parent="RainZone" unique_id=300757738]
+[node name="Shape" type="CollisionShape3D" parent="RainZone" unique_id=1435477555]
 shape = SubResource("BoxShape3D_0owqi")
 
-[node name="SignRain" type="Node3D" parent="." unique_id=1982874084]
+[node name="SignRain" type="Node3D" parent="." unique_id=1042866703]
 transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, 0.5, 1.45, -0.95)
 
-[node name="Panel" type="MeshInstance3D" parent="SignRain" unique_id=1147002597]
+[node name="Panel" type="MeshInstance3D" parent="SignRain" unique_id=1765029213]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.031, -0.006)
 material_override = SubResource("StandardMaterial3D_b0bgc")
 mesh = SubResource("BoxMesh_fkc8u")
 
-[node name="Accent" type="MeshInstance3D" parent="SignRain" unique_id=1965557770]
+[node name="Accent" type="MeshInstance3D" parent="SignRain" unique_id=200869345]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033, -0.004)
 material_override = SubResource("StandardMaterial3D_142l5")
 mesh = SubResource("BoxMesh_ayr0w")
 
-[node name="Title" type="Label3D" parent="SignRain" unique_id=50999645]
+[node name="Title" type="Label3D" parent="SignRain" unique_id=1978690497]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
 pixel_size = 0.0006
 text = "Rain"
 font = ExtResource("3_hj0c6")
 font_size = 36
 
-[node name="Body" type="Label3D" parent="SignRain" unique_id=290901243]
+[node name="Body" type="Label3D" parent="SignRain" unique_id=1237397776]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.008, 0)
 pixel_size = 0.0006
 modulate = Color(1, 1, 1, 0.8)
 text = "Hold your palm up under the cloud.
-HexRSpecialHaptics, rain drop effect: random drops."
+SpecialHaptics, rain drop effect: random drops."
 font = ExtResource("4_u31a7")
 font_size = 22
 vertical_alignment = 0

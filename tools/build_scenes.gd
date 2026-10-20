@@ -173,23 +173,23 @@ func _table(parent: Node, pos: Vector3, size: Vector3 = Vector3(1.6, 0.04, 0.6),
 
 
 ## A rigid prop you can pick up with the glove: HexRGrabbable on a RigidBody3D.
-func _grabbable_body(parent: Node, body_name: String, pos: Vector3, shape: Shape3D, grab_type: int, strength: float, grab_size: Vector3) -> RigidBody3D:
+func _grabbable_body(parent: Node, body_name: String, pos: Vector3, shape: Shape3D, type_of_grab: int, strength: float, grab_size: Vector3) -> RigidBody3D:
 	var body := RigidBody3D.new()
 	body.position = pos
 	body.mass = 0.2
 	_add(parent, body, body_name)
 	_shape(body, shape)
 	var grab := HexRGrabbable.new()
-	grab.grab_type = grab_type
+	grab.type_of_grab = type_of_grab
 	grab.haptic_strength = strength
 	_add(body, grab, "HexRGrabbable")
 	_shape(grab, _box_shape(grab_size))
 	return body
 
 
-func _zone(parent: Node, zone_name: String, effect: int, pos: Vector3, shape: Shape3D) -> HexRSpecialHaptics:
-	var z := HexRSpecialHaptics.new()
-	z.effect = effect
+func _zone(parent: Node, zone_name: String, effect: int, pos: Vector3, shape: Shape3D) -> SpecialHaptics:
+	var z := SpecialHaptics.new()
+	z.type_of_haptics = effect
 	z.position = pos
 	_add(parent, z, zone_name)
 	_shape(z, shape)
@@ -261,17 +261,18 @@ func _player_rig() -> Node:
 		controller.pose = &"grip"
 		_add(origin, controller, side + "Controller")
 		_instance(controller, "res://addons/godot-xr-tools/functions/function_pickup.tscn", "FunctionPickup")
-	# Both tracked hands, both Pressure Controllers: the whole HexR rig.
-	_add(origin, HexRRig.new(), "HexRRig")
+	# Both tracked hands, both Pressure Controllers: the whole HexR rig (Unity's "HexR Main").
+	_add(origin, HexRRig.new(), "HexR Main")
+	# Where Unity's Add HexR Menu puts it: ahead and to the left at chest height, facing the rig.
+	# Its SCENES section lists the project setting hexr/scenes.
 	var menu := HexRFloatingMenu.new()
-	menu.position = Vector3(-0.62, 1.22, -0.42)
-	menu.rotation_degrees = Vector3(0, 40, 0)
-	menu.scenes = PackedStringArray(SCENES)
-	_add(origin, menu, "HexRFloatingMenu")
+	var at := Vector3(menu.spawn_side_offset, 1.6 + menu.spawn_height_offset, -menu.spawn_distance)
+	menu.transform = Transform3D(Basis.looking_at(Vector3(at.x, 0, at.z).normalized(), Vector3.UP), at)
+	menu.show_demo_groups = false
+	_add(origin, menu, "HexR Floating Menu")
 	var remote := HexRRemote.new()
 	remote.expose_scenes = true
-	remote.scenes = SCENES
-	_add(origin, remote, "HexRRemote")
+	_add(origin, remote, "HexR Remote")
 	var notice := Node3D.new()
 	notice.set_script(load("res://scripts/desktop_notice.gd"))
 	notice.set("start_xr", start)
@@ -327,20 +328,20 @@ func _basic() -> Node:
 	var top := 0.8
 
 	var foam := _grabbable_body(table, "Foam", Vector3(-0.55, top + 0.05, 0.02), _box_shape(Vector3(0.09, 0.09, 0.09)),
-			HexRGrabbable.GrabType.PALM, 20.0, Vector3(0.13, 0.13, 0.13))
+			HexRGrabbable.Options.PALM_GRAB, 20.0, Vector3(0.13, 0.13, 0.13))
 	_mesh(foam, _box(Vector3(0.09, 0.09, 0.09)), _mat(Color(0.98, 0.85, 0.35), 0.0, 1.0))
 	_sign(table, Vector3(-0.55, top + 0.22, -0.2), 0, "Foam",
 			"Grab it with your whole hand.\nHexRGrabbable, palm grab, strength 20: soft.")
 
 	var key := _grabbable_body(table, "Key", Vector3(-0.2, top + 0.02, 0.02), _box_shape(Vector3(0.09, 0.012, 0.03)),
-			HexRGrabbable.GrabType.PINCH, 40.0, Vector3(0.11, 0.05, 0.06))
+			HexRGrabbable.Options.PINCH_GRAB, 40.0, Vector3(0.11, 0.05, 0.06))
 	_mesh(key, _box(Vector3(0.06, 0.006, 0.012)), _mat(Color(0.85, 0.68, 0.25), 0.9, 0.3), Vector3(0.02, 0, 0), "Shaft")
 	_mesh(key, _cyl(0.016, 0.006), _mat(Color(0.85, 0.68, 0.25), 0.9, 0.3), Vector3(-0.025, 0, 0), "Bow")
 	_sign(table, Vector3(-0.2, top + 0.22, -0.2), 0, "Key",
 			"Pinch it between thumb and a finger.\nHexRGrabbable, pinch grab, strength 40.")
 
 	var torch := _grabbable_body(table, "Torch", Vector3(0.15, top + 0.035, 0.02), _cyl_shape(0.02, 0.22),
-			HexRGrabbable.GrabType.PALM, 30.0, Vector3(0.08, 0.26, 0.08))
+			HexRGrabbable.Options.PALM_GRAB, 30.0, Vector3(0.08, 0.26, 0.08))
 	torch.rotation_degrees = Vector3(0, 0, 90)
 	_mesh(torch, _cyl(0.018, 0.22), _mat(Color(0.35, 0.22, 0.12), 0.0, 0.9), Vector3.ZERO, "Handle")
 	_mesh(torch, _cyl(0.028, 0.04), _mat(Color(0.15, 0.15, 0.16), 0.6, 0.4), Vector3(0, 0.12, 0), "Head")
@@ -352,11 +353,11 @@ func _basic() -> Node:
 	_add(torch, flame_light, "FlameLight")
 	_particles(torch, "Flame", Vector3(0, 0.15, 0), 40, 0.5, Vector3.UP, 15, Vector2(0.1, 0.25), Vector3(0, 0.3, 0),
 			Color(1.0, 0.55, 0.15), 0.008)
-	var flame_zone := _zone(torch, "FlameZone", HexRSpecialHaptics.Effect.CUSTOM_VIBRATIONS, Vector3(0, 0.19, 0), _sphere_shape(0.05))
-	flame_zone.vibration_frequency = 25.0
-	flame_zone.haptic_strength = 0.6
+	var flame_zone := _zone(torch, "FlameZone", SpecialHaptics.Options.CUSTOM_VIBRATIONS, Vector3(0, 0.19, 0), _sphere_shape(0.05))
+	flame_zone.vibrations_frequency_value = 25.0
+	flame_zone.haptic_strength_value = 0.6
 	_sign(table, Vector3(0.15, top + 0.22, -0.2), 0, "Torch",
-			"Pick it up, then put a fingertip in the flame.\nHexRGrabbable + HexRSpecialHaptics (custom vibrations, 25 Hz).")
+			"Pick it up, then put a fingertip in the flame.\nHexRGrabbable + SpecialHaptics (custom vibrations, 25 Hz).")
 
 	var button_base := StaticBody3D.new()
 	button_base.position = Vector3(0.5, top + 0.015, 0.02)
@@ -438,12 +439,12 @@ func _hospital() -> Node:
 		var l := _mesh(man, leg, _mat(Color(0.25, 0.3, 0.42), 0.0, 0.9), Vector3(0.4, 0.06, sz * 0.09), "Leg%s" % ("Left" if sz > 0 else "Right"))
 		l.rotation_degrees = Vector3(0, 0, 90)
 
-	var wrist := _zone(man, "WristPulse", HexRSpecialHaptics.Effect.HEART_BEAT, Vector3(0.02, 0.05, 0.22), _sphere_shape(0.05))
+	var wrist := _zone(man, "WristPulse", SpecialHaptics.Options.HEART_BEAT_EFFECT, Vector3(0.02, 0.05, 0.22), _sphere_shape(0.05))
 	wrist.heart_beat_pressure = 0.5
-	var neck_zone := _zone(man, "NeckPulse", HexRSpecialHaptics.Effect.HEART_BEAT, Vector3(-0.6, 0.08, 0.0), _sphere_shape(0.055))
+	var neck_zone := _zone(man, "NeckPulse", SpecialHaptics.Options.HEART_BEAT_EFFECT, Vector3(-0.6, 0.08, 0.0), _sphere_shape(0.055))
 	neck_zone.heart_beat_pressure = 0.6
 	_sign(root, Vector3(-0.35, 1.25, -1.2), 0, "Pulse points",
-			"Rest two fingertips on the wrist or the neck.\nHexRSpecialHaptics, heart beat effect.", 0.36)
+			"Rest two fingertips on the wrist or the neck.\nSpecialHaptics, heart beat effect.", 0.36)
 
 	var base := StaticBody3D.new()
 	base.position = Vector3(0.75, 0.95, -0.35)
@@ -484,9 +485,9 @@ func _hospital() -> Node:
 	tip.bottom_radius = 0.0
 	tip.height = 0.08
 	_mesh(shape_root, tip, red, Vector3(0, -0.03, 0), "Tip")
-	var beat := _zone(heart, "BeatZone", HexRSpecialHaptics.Effect.HEART_BEAT, Vector3.ZERO, _sphere_shape(0.075))
+	var beat := _zone(heart, "BeatZone", SpecialHaptics.Options.HEART_BEAT_EFFECT, Vector3.ZERO, _sphere_shape(0.075))
 	beat.include_palm = true
-	var squeeze := _zone(heart, "SqueezeZone", HexRSpecialHaptics.Effect.HAND_SQUEEZE, Vector3.ZERO, _sphere_shape(0.075))
+	var squeeze := _zone(heart, "SqueezeZone", SpecialHaptics.Options.HAND_SQUEEZE_EFFECT, Vector3.ZERO, _sphere_shape(0.075))
 	heart.set("beat_zone", beat)
 	heart.set("squeeze_zone", squeeze)
 	heart.set("mesh", shape_root)
@@ -514,10 +515,10 @@ func _water() -> Node:
 	_mesh(fountain, _cyl(0.27, 0.01), _mat(Color(0.2, 0.45, 0.7, 0.8), 0.2, 0.05), Vector3(0, 0.74, 0), "Water")
 	_particles(fountain, "Jet", Vector3(0, 0.78, 0), 220, 1.0, Vector3.UP, 8, Vector2(1.4, 1.7), Vector3(0, -3.0, 0),
 			Color(0.6, 0.8, 1.0, 0.85), 0.007)
-	var jet_zone := _zone(fountain, "FountainZone", HexRSpecialHaptics.Effect.FOUNTAIN, Vector3(0, 0.98, 0), _cyl_shape(0.07, 0.4))
+	var jet_zone := _zone(fountain, "FountainZone", SpecialHaptics.Options.FOUNTAIN_EFFECT, Vector3(0, 0.98, 0), _cyl_shape(0.07, 0.4))
 	jet_zone.name = "FountainZone"
 	_sign(root, Vector3(-0.45, 1.45, -1.0), 0, "Fountain",
-			"Put your fingers into the jet.\nHexRSpecialHaptics, fountain effect: 18 Hz.", 0.32)
+			"Put your fingers into the jet.\nSpecialHaptics, fountain effect: 18 Hz.", 0.32)
 
 	var cloud := Node3D.new()
 	cloud.position = Vector3(0.5, 2.05, -0.45)
@@ -528,8 +529,8 @@ func _water() -> Node:
 		_mesh(cloud, _sphere(0.13 + 0.03 * (i % 2)), grey, off, "Puff%d" % i)
 	_particles(cloud, "Rain", Vector3(0, -0.1, 0), 160, 1.2, Vector3.DOWN, 2, Vector2(1.0, 1.4), Vector3(0, -2.0, 0),
 			Color(0.65, 0.8, 1.0, 0.8), 0.005, Vector3(0.2, 0.01, 0.16))
-	var rain_zone := _zone(root, "RainZone", HexRSpecialHaptics.Effect.RAIN_DROP, Vector3(0.5, 1.35, -0.45), _box_shape(Vector3(0.45, 1.1, 0.4)))
-	rain_zone.haptic_strength = 0.5
+	var rain_zone := _zone(root, "RainZone", SpecialHaptics.Options.RAIN_DROP_EFFECT, Vector3(0.5, 1.35, -0.45), _box_shape(Vector3(0.45, 1.1, 0.4)))
+	rain_zone.haptic_strength_value = 0.5
 	_sign(root, Vector3(0.5, 1.45, -0.95), 0, "Rain",
-			"Hold your palm up under the cloud.\nHexRSpecialHaptics, rain drop effect: random drops.", 0.32)
+			"Hold your palm up under the cloud.\nSpecialHaptics, rain drop effect: random drops.", 0.32)
 	return root

@@ -15,7 +15,7 @@ can feel haptics in a headset before writing any code of your own.
 | Section | What's inside |
 |---|---|
 | [🚀 Getting Started](#-getting-started) | Prerequisites, clone and open, export to a headset, Bluetooth permissions |
-| [🧤 Addon Reference](#-addon-reference) | The `HexR` autoload, gloves, Pressure Controllers, the haptics calls |
+| [🧤 Addon Reference](#-addon-reference) | The `HexR` autoload, gloves, `PressureTrackerMain`, the haptics calls |
 | [🧩 Components](#-components) | The nodes you actually add to a scene |
 | [🎬 Demo Scenes](#-demo-scenes) | What each tutorial scene shows, and how |
 | [📡 HexR Remote](#-hexr-remote) | Watch and control the headset from the HexR Companion |
@@ -39,7 +39,7 @@ Already in the project, pinned:
 
 | Addon | Version | What for |
 |---|---|---|
-| `addons/hexr` | 0.1.0 | The HexR addon (this is what you add to your own projects) |
+| `addons/hexr` | 0.2.0 | The HexR addon (this is what you add to your own projects) |
 | `addons/godotopenxrvendors` | 5.1.0 | Meta and PICO OpenXR support |
 | `addons/godot-xr-tools` | 4.5.2 | Start-up, and the optional pick-up example |
 
@@ -79,15 +79,16 @@ The glove is found over Bluetooth. The first time you press **Connect**, the hea
 
 <br>
 
-1. Download `HexR-Godot-<version>.zip` from the HexR-Godot releases and unzip it into your
-   project, so you have `res://addons/hexr/`.
-2. **Project → Project Settings → Plugins** → enable **HexR**. This adds the `HexR` autoload and
-   names physics layers 20 (`hexr_touch`) and 21 (`hexr_interactable`).
-3. **Project → Tools → HexR → Create HexR Rig** in your XR scene (it adds an `XROrigin3D` if
-   there is none). Then **Add HexR Menu** for the floating menu.
-4. Open the **HexR** dock → **Setup** → *Check project and open scene*, and press **Fix** on
-   anything red.
-5. Turn on **Use Gradle Build** in your Android export preset.
+1. Download `HexR-Godot.zip` from the
+   [latest HexR-Godot release](https://github.com/MicrotubeTechnologies/HexR-Godot/releases/latest)
+   and unzip it into your project, so you have `res://addons/hexr/`.
+2. **Project → Project Settings → Plugins** → enable **HexR**. This adds the `HexR` autoload, a
+   **HexR** menu in the editor's menu bar and the **HexR Tools** dock under the Inspector, as in Unity.
+3. **HexR Tools → Project Setup**: install the OpenXR Vendors plugin, apply the XR settings and
+   add the Meta Quest and PICO export presets.
+4. **HexR → Create HexR Rig** in your XR scene (it adds an `XROrigin3D` if there is none), then
+   **HexR → Add HexR Menu**. Or **HexR → Create Demo Scene** for all of it at once.
+5. **HexR → Troubleshoot → Validate Scene Setup**, and **Fix all**.
 
 </details>
 
@@ -97,18 +98,21 @@ The glove is found over Bluetooth. The first time you press **Connect**, the hea
 
 The `HexR` autoload owns both gloves and their Bluetooth link. Scenes bring their own rig.
 
+The classes and calls are the HexR Unity package's, in Godot's snake_case.
+
 ```gdscript
 # Connect (asks for the Bluetooth permission first where needed; safe to call any time).
-HexR.connect_hand(HexRTypes.Hand.LEFT)
+HexR.connect_hand(HaptGloveHandler.HandType.LEFT)       # Unity: HexRManager.Instance.Connect(...)
 HexR.glove_connected.connect(func(hand): print(HexRTypes.hand_name(hand), " connected"))
 
-# Press the left index at 80% through the hand's Pressure Controller...
-HexR.controller(HexRTypes.Hand.LEFT).custom_single_haptics(HexRTypes.Finger.INDEX, true, 0.8, 1.0, true)
+# Press the left index at 80% through the hand's PressureTrackerMain...
+var tracker := HexR.controller(HaptGloveHandler.HandType.LEFT)
+tracker.custom_single_haptics(Haptics.Finger.INDEX, true, 0.8, 1.0, true)
 
 # ...or build the bytes yourself and send them.
-var g := HexR.left
-g.bt_send(g.haptics.hexr_vibration(HexRTypes.Finger.PALM, true, 18.0, 0.7))
-g.release_all_channels()
+var glove := HexR.left_hand                             # Unity: HexRManager.Instance.leftHand
+glove.bt_send(glove.haptics.hexr_vibration(Haptics.Finger.PALM, true, 18.0, 0.7))
+glove.release_all_channels()
 ```
 
 <details>
@@ -116,7 +120,7 @@ g.release_all_channels()
 
 <br>
 
-| Call (on `HexR.left.haptics` / `HexR.right.haptics`) | Opcode | Parameters |
+| Call (on `HexR.left_hand.haptics` / `HexR.right_hand.haptics`) | Opcode | Parameters |
 |---|---|---|
 | `hexr_pressure(finger, on, intensity, speed)` | 0x04 | intensity 0.1–1 (≈15–50 kPa), speed 0.1–1 |
 | `hexr_vibration(finger, on, frequency, intensity)` | 0x07 | 0.1–40 Hz |
@@ -124,10 +128,10 @@ g.release_all_channels()
 | `hexr_vibration_ramped(finger, on, frequency, intensity, peak_ratio, speed, end_intensity)` | 0x09 | 0.1–2 Hz, peak 0.2–0.8 |
 | `hexr_pulse_ramped(…, count, end_intensity)` | 0x0A | |
 
-Out-of-range values are clamped, not rejected. Channels are `HexRTypes.Finger`: `THUMB`,
+Out-of-range values are clamped, not rejected. Channels are `Haptics.Finger`: `THUMB`,
 `INDEX`, `MIDDLE`, `RING`, `PINKY`, `PALM`. The bytes are identical to the Unity package's.
 
-| `HexRPressureController` (`HexR.controller(hand)`) | |
+| `PressureTrackerMain` (`HexR.controller(hand)`) | |
 |---|---|
 | `single_index_haptic(intensity)` … `single_palm_haptic` | One channel; only while the hand is near something |
 | `remove_index_haptics()` … | Release one channel |
@@ -146,14 +150,14 @@ Add these to your scene; none needs an interaction toolkit.
 
 | Node | Base | What it does |
 |---|---|---|
-| `HexRRig` | Node3D | Under your `XROrigin3D`: both tracked hands (touch points on the fingertips and palm) and both Pressure Controllers |
+| `HexRRig` | Node3D | Unity's "HexR Main": under your `XROrigin3D`, both tracked hands (a `HapticFingerTrigger` on each fingertip and the palm) and both `PressureTrackerMain`s |
 | `HexRGrabbable` | Area3D | Child of a `RigidBody3D`: pinch or palm grab, each touching finger pressed |
 | `HexRPhysicalButton` | Area3D | A button pressed by a fingertip; the finger feels it |
-| `HexRSpecialHaptics` | Area3D | Zones: custom vibration, custom pressure, fountain, rain drop, heart beat, hand squeeze |
-| `HexRProximityCheck` | Area3D | Opens the hand-near check for code-driven haptics |
+| `SpecialHaptics` | Area3D | Zones: custom vibration, custom pressure, fountain, rain drop, heart beat, hand squeeze |
+| `ProximityCheck` | Area3D | Opens the hand-near check for code-driven haptics |
 | `HexRUsable` | Area3D | Signals when chosen fingers curl and uncurl |
 | `HexRInteractableHaptics` | Node | Child of an XR Tools pickable: pressure while held, following the grip |
-| `HexRFloatingMenu` | Node3D | The HexR panel: connect, battery, live haptics readout |
+| `HexRFloatingMenu` | Node3D | The HexR menu in the Unity package's look: connect, colliders, live haptics readout, scenes |
 | `HexRRemote` | Node | The phone link (see below) |
 
 ---
@@ -169,7 +173,7 @@ Add these to your scene; none needs an interaction toolkit.
 |---|---|---|
 | **Foam** | `HexRGrabbable`, palm grab, strength 20 | A soft press on each finger around it |
 | **Key** | `HexRGrabbable`, pinch grab, strength 40 | A firm pinch on thumb and finger |
-| **Torch** | `HexRGrabbable` + `HexRSpecialHaptics` (custom vibrations, 25 Hz) on the flame | Holding it, then a buzz when a fingertip enters the flame |
+| **Torch** | `HexRGrabbable` + `SpecialHaptics` (custom vibrations, 25 Hz) on the flame | Holding it, then a buzz when a fingertip enters the flame |
 | **Button** | `HexRPhysicalButton` → the bulb's `toggle()` | A press on the index while it is down |
 | **XR Tools ball** | XR Tools `pickable.tscn` + `HexRInteractableHaptics` | Pressure that follows how hard you squeeze |
 
@@ -182,7 +186,7 @@ Add these to your scene; none needs an interaction toolkit.
 
 | Object | How the haptics are added | What you feel |
 |---|---|---|
-| **Wrist and neck** | `HexRSpecialHaptics`, heart beat | A pulse under the fingertips resting there |
+| **Wrist and neck** | `SpecialHaptics`, heart beat | A pulse under the fingertips resting there |
 | **Pulse button** | `HexRPhysicalButton` → `heartbeat_toggle.gd` | Switches every pulse between regular and irregular |
 | **Heart** | Heart beat zone (palm included) + hand squeeze zone, `squeezing_heart.gd` | It beats in your palm; squeeze and it races |
 
@@ -195,14 +199,16 @@ Add these to your scene; none needs an interaction toolkit.
 
 | Object | How the haptics are added | What you feel |
 |---|---|---|
-| **Fountain** | `HexRSpecialHaptics`, fountain | Running water: 18 Hz on the fingers in the jet |
-| **Rain cloud** | `HexRSpecialHaptics`, rain drop | Random drops while your palm faces up under it |
+| **Fountain** | `SpecialHaptics`, fountain | Running water: 18 Hz on the fingers in the jet |
+| **Rain cloud** | `SpecialHaptics`, rain drop | Random drops while your palm faces up under it |
 
 </details>
 
-The scenes are built by `tools/build_scenes.gd` (`godot --headless --path . -s res://tools/build_scenes.gd`)
-so their layout and wiring can be read in one place. Edit the `.tscn` files freely; re-running
-the builder overwrites them.
+The scenes are built by `tools/build_scenes.gd`
+(`godot --headless --xr-mode off --path . -s res://tools/build_scenes.gd`) so their layout and
+wiring can be read in one place. Edit the `.tscn` files freely; re-running the builder
+overwrites them. The menu's SCENES section and HexR Remote list the scenes in **Project Settings
+→ HexR → Scenes**.
 
 ---
 

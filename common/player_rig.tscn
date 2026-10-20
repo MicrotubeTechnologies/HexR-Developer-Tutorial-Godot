@@ -10,50 +10,49 @@
 [ext_resource type="Script" path="res://addons/hexr/remote/hexr_remote.gd" id="8_5ypjq"]
 [ext_resource type="Script" path="res://scripts/desktop_notice.gd" id="9_lf37f"]
 
-[node name="PlayerRig" type="XROrigin3D" unique_id=76828025]
+[node name="PlayerRig" type="XROrigin3D" unique_id=1670889950]
 
-[node name="StartXR" type="Node" parent="." unique_id=2096450012 instance=ExtResource("1_dcdap")]
+[node name="StartXR" type="Node" parent="." unique_id=730146159 instance=ExtResource("1_dcdap")]
 script = ExtResource("2_8o46f")
 
-[node name="XRCamera3D" type="XRCamera3D" parent="." unique_id=953747361]
+[node name="XRCamera3D" type="XRCamera3D" parent="." unique_id=446208986]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
-[node name="LeftHandVisual" type="XRNode3D" parent="." unique_id=1843145859]
+[node name="LeftHandVisual" type="XRNode3D" parent="." unique_id=1630663272]
 script = ExtResource("3_cbroq")
 
-[node name="LeftController" type="XRController3D" parent="." unique_id=1274075309]
+[node name="LeftController" type="XRController3D" parent="." unique_id=952752284]
 tracker = &"left_hand"
 pose = &"grip"
 
-[node name="FunctionPickup" type="Node3D" parent="LeftController" unique_id=1485769552 instance=ExtResource("4_7ywrq")]
+[node name="FunctionPickup" type="Node3D" parent="LeftController" unique_id=1683520139 instance=ExtResource("4_7ywrq")]
 script = ExtResource("5_l72hf")
 grab_collision_mask = 327684
 
-[node name="RightHandVisual" type="XRNode3D" parent="." unique_id=1371050698]
+[node name="RightHandVisual" type="XRNode3D" parent="." unique_id=787511077]
 script = ExtResource("3_cbroq")
 left = false
 
-[node name="RightController" type="XRController3D" parent="." unique_id=199053048]
+[node name="RightController" type="XRController3D" parent="." unique_id=1502654427]
 tracker = &"right_hand"
 pose = &"grip"
 
-[node name="FunctionPickup" type="Node3D" parent="RightController" unique_id=1698940808 instance=ExtResource("4_7ywrq")]
+[node name="FunctionPickup" type="Node3D" parent="RightController" unique_id=583575260 instance=ExtResource("4_7ywrq")]
 script = ExtResource("5_l72hf")
 grab_collision_mask = 327684
 
-[node name="HexRRig" type="Node3D" parent="." unique_id=1691904211]
+[node name="HexR Main" type="Node3D" parent="." unique_id=1974120125]
 script = ExtResource("6_ttbaf")
 
-[node name="HexRFloatingMenu" type="Node3D" parent="." unique_id=1670482687]
-transform = Transform3D(0.76604444, 0, 0.6427876, 0, 1, 0, -0.6427876, 0, 0.76604444, -0.62, 1.22, -0.42)
+[node name="HexR Floating Menu" type="Node3D" parent="." unique_id=1764384645]
+transform = Transform3D(0.8804711, 0, 0.4740998, 0, 1, 0, -0.4740998, 0, 0.8804711, -0.35, 1.4, -0.65)
 script = ExtResource("7_indx2")
-scenes = PackedStringArray("res://scenes/1_basic_tutorial.tscn", "res://scenes/2_hospital_tutorial.tscn", "res://scenes/3_water_effects.tscn")
+show_demo_groups = false
 
-[node name="HexRRemote" type="Node" parent="." unique_id=870967349]
+[node name="HexR Remote" type="Node" parent="." unique_id=885973605]
 script = ExtResource("8_5ypjq")
 expose_scenes = true
-scenes = Array[String](["res://scenes/1_basic_tutorial.tscn", "res://scenes/2_hospital_tutorial.tscn", "res://scenes/3_water_effects.tscn"])
 
-[node name="DesktopNotice" type="Node3D" parent="." unique_id=1733630601 node_paths=PackedStringArray("start_xr")]
+[node name="DesktopNotice" type="Node3D" parent="." unique_id=1158949872 node_paths=PackedStringArray("start_xr")]
 script = ExtResource("9_lf37f")
 start_xr = NodePath("../StartXR")
