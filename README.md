@@ -32,7 +32,7 @@ can feel haptics in a headset before writing any code of your own.
 | **Godot 4.6 or newer** | Tested on **4.7.2**. The standard build; .NET is not needed. |
 | **Android export templates** | Editor → Manage Export Templates → Download. |
 | **Android SDK and JDK 17** | Editor Settings → Export → Android. Godot's [Android export guide](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html) walks through it. |
-| **A headset** | Meta Quest 2, 3, 3S or Pro, or PICO 4 / 4 Ultra, in developer mode. |
+| **A headset** | Meta Quest 2, 3, 3S or Pro, or PICO 4 / 4 Ultra, in developer mode. Run with a glove on a Quest 3 so far; the PICO build exports but has not been run on a headset yet. |
 | **A HexR Glove 2.0** | Charged and switched on. Do **not** pair it in the headset's Bluetooth settings. |
 
 Already in the project, pinned:
