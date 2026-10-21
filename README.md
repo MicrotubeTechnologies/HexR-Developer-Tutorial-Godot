@@ -1,7 +1,7 @@
 # HexR Godot Integration — Developer Tutorial ℹ️
 
 A Godot 4 tutorial project for the **HexR** haptic glove, running on **Meta Quest** and
-**PICO** through OpenXR. It ships three ready-to-run scenes and the **HexR Godot addon**, so you
+**PICO** through OpenXR. It ships two ready-to-run scenes and the **HexR Godot addon**, so you
 can feel haptics in a headset before writing any code of your own.
 
 > [!NOTE]
@@ -173,22 +173,9 @@ Add these to your scene; none needs an interaction toolkit.
 |---|---|---|
 | **Foam** | `HexRGrabbable`, palm grab, strength 20 | A soft press on each finger around it |
 | **Key** | `HexRGrabbable`, pinch grab, strength 40 | A firm pinch on thumb and finger |
-| **Torch** | `HexRGrabbable` + `SpecialHaptics` (custom vibrations, 25 Hz) on the flame | Holding it, then a buzz when a fingertip enters the flame |
+| **Torch** | `HexRGrabbable` (no gravity: it floats) + `SpecialHaptics` (custom vibrations, 25 Hz) on the flame | Holding it, then a buzz when a fingertip enters the flame |
 | **Button** | `HexRPhysicalButton` → the bulb's `toggle()` | A press on the index while it is down |
 | **XR Tools ball** | XR Tools `pickable.tscn` + `HexRInteractableHaptics` | Pressure that follows how hard you squeeze |
-
-</details>
-
-<details>
-  <summary>2 · Hospital Tutorial</summary>
-
-<br>
-
-| Object | How the haptics are added | What you feel |
-|---|---|---|
-| **Wrist and neck** | `SpecialHaptics`, heart beat | A pulse under the fingertips resting there |
-| **Pulse button** | `HexRPhysicalButton` → `heartbeat_toggle.gd` | Switches every pulse between regular and irregular |
-| **Heart** | Heart beat zone (palm included) + hand squeeze zone, `squeezing_heart.gd` | It beats in your palm; squeeze and it races |
 
 </details>
 

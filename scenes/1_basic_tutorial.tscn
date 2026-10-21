@@ -468,8 +468,11 @@ autowrap_mode = 3
 width = 483.33334
 
 [node name="Torch" type="RigidBody3D" parent="Table" unique_id=1190845654]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.15, 0.835, 0.02)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 1, 0.02)
 mass = 0.2
+gravity_scale = 0.0
+linear_damp = 4.0
+angular_damp = 4.0
 
 [node name="Shape" type="CollisionShape3D" parent="Table/Torch" unique_id=619691385]
 shape = SubResource("CylinderShape3D_yy7ro")
@@ -480,6 +483,7 @@ collision_mask = 524288
 monitorable = false
 script = ExtResource("5_vdmd1")
 type_of_grab = 1
+gravity_on_release = false
 haptic_strength = 30.0
 
 [node name="Shape" type="CollisionShape3D" parent="Table/Torch/HexRGrabbable" unique_id=1569849699]

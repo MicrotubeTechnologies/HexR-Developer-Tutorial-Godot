@@ -33,7 +33,7 @@ enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg", "res://addon
 
 [hexr]
 
-scenes=PackedStringArray("res://scenes/1_basic_tutorial.tscn", "res://scenes/2_hospital_tutorial.tscn", "res://scenes/3_water_effects.tscn")
+scenes=PackedStringArray("res://scenes/1_basic_tutorial.tscn", "res://scenes/3_water_effects.tscn")
 
 [layer_names]
 

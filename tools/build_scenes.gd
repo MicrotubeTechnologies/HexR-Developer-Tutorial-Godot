@@ -8,7 +8,6 @@ extends SceneTree
 const ORANGE := Color("#f2661a")
 const SCENES: Array[String] = [
 	"res://scenes/1_basic_tutorial.tscn",
-	"res://scenes/2_hospital_tutorial.tscn",
 	"res://scenes/3_water_effects.tscn",
 ]
 const FONT := "res://addons/hexr/ui/fonts/Inter-Medium.ttf"
@@ -21,8 +20,7 @@ func _initialize() -> void:
 	_save(_player_rig(), "res://common/player_rig.tscn")
 	_save(_environment(), "res://common/environment.tscn")
 	_save(_basic(), SCENES[0])
-	_save(_hospital(), SCENES[1])
-	_save(_water(), SCENES[2])
+	_save(_water(), SCENES[1])
 	quit()
 
 
@@ -340,9 +338,14 @@ func _basic() -> Node:
 	_sign(table, Vector3(-0.2, top + 0.22, -0.2), 0, "Key",
 			"Pinch it between thumb and a finger.\nHexRGrabbable, pinch grab, strength 40.")
 
-	var torch := _grabbable_body(table, "Torch", Vector3(0.15, top + 0.035, 0.02), _cyl_shape(0.02, 0.22),
+	var torch := _grabbable_body(table, "Torch", Vector3(0.15, top + 0.2, 0.02), _cyl_shape(0.02, 0.22),
 			HexRGrabbable.Options.PALM_GRAB, 30.0, Vector3(0.08, 0.26, 0.08))
-	torch.rotation_degrees = Vector3(0, 0, 90)
+	# It floats upright above the table, before and after a grab; the damping brings a let-go
+	# torch to rest instead of letting it drift off.
+	torch.gravity_scale = 0.0
+	torch.linear_damp = 4.0
+	torch.angular_damp = 4.0
+	(torch.get_node("HexRGrabbable") as HexRGrabbable).gravity_on_release = false
 	_mesh(torch, _cyl(0.018, 0.22), _mat(Color(0.35, 0.22, 0.12), 0.0, 0.9), Vector3.ZERO, "Handle")
 	_mesh(torch, _cyl(0.028, 0.04), _mat(Color(0.15, 0.15, 0.16), 0.6, 0.4), Vector3(0, 0.12, 0), "Head")
 	var flame_light := OmniLight3D.new()
@@ -398,101 +401,6 @@ func _basic() -> Node:
 	_add(root, commands, "TutorialCommands")
 	var resettable: Array[NodePath] = [root.get_path_to(foam), root.get_path_to(key), root.get_path_to(torch), root.get_path_to(ball)]
 	commands.set("resettable", resettable)
-	return root
-
-
-# -- 2. Hospital tutorial -------------------------------------------------------------------
-
-func _hospital() -> Node:
-	var root := Node3D.new()
-	_begin(root, "HospitalTutorial")
-	_common(root, "2 · Hospital Tutorial", "Find the pulse at the wrist and the neck, then hold the heart.")
-	var bed := StaticBody3D.new()
-	bed.position = Vector3(0, 0, -0.75)
-	_add(root, bed, "Bed")
-	_mesh(bed, _box(Vector3(1.9, 0.12, 0.8)), _mat(Color(0.85, 0.88, 0.92)), Vector3(0, 0.66, 0), "Mattress")
-	_mesh(bed, _box(Vector3(1.95, 0.6, 0.82)), _mat(Color(0.3, 0.32, 0.36), 0.4, 0.5), Vector3(0, 0.3, 0), "Frame")
-	_shape(bed, _box_shape(Vector3(1.95, 0.72, 0.82)), Vector3(0, 0.36, 0))
-
-	# A training mannequin lying on its back, head to the left.
-	var skin := _mat(Color(0.86, 0.72, 0.62), 0.0, 0.8)
-	var man := Node3D.new()
-	man.position = Vector3(0, 0.74, 0)
-	_add(bed, man, "Mannequin")
-	_mesh(man, _sphere(0.1), skin, Vector3(-0.72, 0.08, 0), "Head")
-	var neck := _mesh(man, _cyl(0.045, 0.1), skin, Vector3(-0.6, 0.06, 0), "Neck")
-	neck.rotation_degrees = Vector3(0, 0, 90)
-	var torso := CapsuleMesh.new()
-	torso.radius = 0.16
-	torso.height = 0.62
-	var t := _mesh(man, torso, _mat(Color(0.55, 0.7, 0.85), 0.0, 0.9), Vector3(-0.28, 0.07, 0), "Torso")
-	t.rotation_degrees = Vector3(0, 0, 90)
-	for sz in [-1, 1]:
-		var arm := CapsuleMesh.new()
-		arm.radius = 0.04
-		arm.height = 0.55
-		var a := _mesh(man, arm, skin, Vector3(-0.25, 0.04, sz * 0.22), "Arm%s" % ("Left" if sz > 0 else "Right"))
-		a.rotation_degrees = Vector3(0, 0, 90)
-		var leg := CapsuleMesh.new()
-		leg.radius = 0.07
-		leg.height = 0.8
-		var l := _mesh(man, leg, _mat(Color(0.25, 0.3, 0.42), 0.0, 0.9), Vector3(0.4, 0.06, sz * 0.09), "Leg%s" % ("Left" if sz > 0 else "Right"))
-		l.rotation_degrees = Vector3(0, 0, 90)
-
-	var wrist := _zone(man, "WristPulse", SpecialHaptics.Options.HEART_BEAT_EFFECT, Vector3(0.02, 0.05, 0.22), _sphere_shape(0.05))
-	wrist.heart_beat_pressure = 0.5
-	var neck_zone := _zone(man, "NeckPulse", SpecialHaptics.Options.HEART_BEAT_EFFECT, Vector3(-0.6, 0.08, 0.0), _sphere_shape(0.055))
-	neck_zone.heart_beat_pressure = 0.6
-	_sign(root, Vector3(-0.35, 1.25, -1.2), 0, "Pulse points",
-			"Rest two fingertips on the wrist or the neck.\nSpecialHaptics, heart beat effect.", 0.36)
-
-	var base := StaticBody3D.new()
-	base.position = Vector3(0.75, 0.95, -0.35)
-	_add(root, base, "ToggleButton")
-	_mesh(base, _cyl(0.04, 0.03), _mat(Color(0.2, 0.2, 0.22)), Vector3.ZERO, "Base")
-	_shape(base, _cyl_shape(0.04, 0.03))
-	var cap := _mesh(base, _cyl(0.028, 0.016), _mat(ORANGE, 0.0, 0.4, 0.4), Vector3(0, 0.022, 0), "Cap")
-	var press := HexRPhysicalButton.new()
-	press.cap = cap
-	press.position = Vector3(0, 0.03, 0)
-	_add(base, press, "HexRPhysicalButton")
-	_shape(press, _cyl_shape(0.028, 0.02))
-	_table(root, Vector3(0.75, 0.17, -0.35), Vector3(0.3, 0.04, 0.3), "ButtonStand")
-	var pulse_label := Label3D.new()
-	pulse_label.font = load(FONT)
-	pulse_label.font_size = 28
-	pulse_label.pixel_size = 0.0008
-	pulse_label.position = Vector3(0.75, 1.08, -0.35)
-	_add(root, pulse_label, "PulseLabel")
-	var toggle := Node.new()
-	toggle.set_script(load("res://scripts/heartbeat_toggle.gd"))
-	_add(root, toggle, "HeartbeatToggle")
-	toggle.set("label", pulse_label)
-	press.pressed.connect(Callable(toggle, "toggle"), CONNECT_PERSIST)
-
-	var heart_stand := _table(root, Vector3(-0.85, 0.15, -0.2), Vector3(0.3, 0.04, 0.3), "HeartStand")
-	var heart := Node3D.new()
-	heart.set_script(load("res://scripts/squeezing_heart.gd"))
-	heart.position = Vector3(0, 0.88, 0)
-	_add(heart_stand, heart, "Heart")
-	var shape_root := Node3D.new()
-	_add(heart, shape_root, "Shape")
-	var red := _mat(Color(0.75, 0.08, 0.12), 0.1, 0.4)
-	_mesh(shape_root, _sphere(0.04), red, Vector3(-0.025, 0.02, 0), "LobeLeft")
-	_mesh(shape_root, _sphere(0.04), red, Vector3(0.025, 0.02, 0), "LobeRight")
-	var tip := CylinderMesh.new()
-	tip.top_radius = 0.06
-	tip.bottom_radius = 0.0
-	tip.height = 0.08
-	_mesh(shape_root, tip, red, Vector3(0, -0.03, 0), "Tip")
-	var beat := _zone(heart, "BeatZone", SpecialHaptics.Options.HEART_BEAT_EFFECT, Vector3.ZERO, _sphere_shape(0.075))
-	beat.include_palm = true
-	var squeeze := _zone(heart, "SqueezeZone", SpecialHaptics.Options.HAND_SQUEEZE_EFFECT, Vector3.ZERO, _sphere_shape(0.075))
-	heart.set("beat_zone", beat)
-	heart.set("squeeze_zone", squeeze)
-	heart.set("mesh", shape_root)
-	_sign(heart_stand, Vector3(0, 1.05, -0.12), 0, "Heart",
-			"Hold it in your palm: it beats.\nSqueeze it and it races.", 0.28)
 	return root
 
 
